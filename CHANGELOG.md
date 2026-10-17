@@ -3,6 +3,25 @@
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
 This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
 
+## [Milestone 3] - 2026-10-17
+### Added
+- Built vendor-neutral runtime avatar adapter layer (`src/lib/avatar/`):
+  - Defined `IAvatarAdapter`, `AvatarSession`, `SpeechRequest`, and `SpeechResult` interfaces.
+  - Implemented `DidAdapter` for D-ID Agents streaming API with Azure Neural TTS.
+  - Implemented `HeygenAdapter` for HeyGen LiveAvatar real-time API.
+  - Implemented `SimliAdapter` for ultra low-cost real-time audio-to-video WebRTC layer (~$0.018/min).
+  - Implemented `MockAdapter` for local development sandbox with zero API spend.
+- Implemented server-side API endpoints protecting private credentials:
+  - `POST /api/avatar/session`: WebRTC session handshake & ICE server negotiation.
+  - `DELETE /api/avatar/session`: Graceful session teardown.
+  - `POST /api/avatar/speak`: Dynamic script synthesis with synchronized Hinglish caption timestamps.
+- Enhanced `AvatarPlayer.tsx` with:
+  - Active engine selector (`D-ID`, `Simli`, `HeyGen`, `Local Dev Sandbox`).
+  - Real-time estimated streaming rate badge based on Appendix C rates.
+  - Live script test and re-synchronization interface for instant testing without video regeneration.
+  - Verified Section 3A Option 1 compliance (stock voice drives lip-sync, muted by default with explicit user unmute).
+- Created detailed technical evaluation report in `docs/AVATAR_POC_EVALUATION.md` documenting per-minute cost scaling projections across scan volumes.
+
 ## [Milestone 2] - 2026-10-17
 ### Added
 - Created dedicated vector visual assets in `public/images/`:

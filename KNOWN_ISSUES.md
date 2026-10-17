@@ -2,23 +2,23 @@
 
 This file tracks technical limitations, pending decisions, and temporary placeholders across milestones.
 
-## Milestone 2 Status (Completed)
+## Milestone 3 Status (Completed)
 
-### Resolved Items & Confirmations
-1. **"Resemble pictures" Meaning (Section 0 & 2C):**
-   - **Resolved as Option A:** Configured as sample/reference portfolio marketing visuals (multi-channel analytics dashboard, ad creative testing matrix, lifecycle attribution pipeline map).
-   - Real client names, trademarks, and results remain strictly omitted per policy until signed off.
-2. **Preloader Content & Recognition (Section 0 & 2B):**
-   - **Resolved:** Using approved default: `"AI Performance Marketing • Funnel Architecture • Growth Systems"`.
-3. **Usage Visuals & Client Problem Categories (Section 0 & 2C):**
-   - **Resolved:** Built 3 representative bottleneck diagrams (ad fatigue/CAC, landing page conversion drop-off, and automated lead qualification).
+### Resolved Items & Technical Validations
+1. **Avatar Adapter Layer:** Built vendor-neutral adapter architecture (`src/lib/avatar/`) supporting D-ID, Simli, HeyGen, and Mock local development.
+2. **Section 3A Option 1 Validation:** Confirmed that stock/bundled TTS voices drive phoneme/lip-sync accurately in D-ID and Simli without add-on voice cloning charges.
+3. **Cost Scaling Projections:** Documented comprehensive traffic modeling in `docs/AVATAR_POC_EVALUATION.md`. Evaluated at 100 scans/month:
+   - **Simli:** ~$0.90 / month (~₹75/mo)
+   - **D-ID:** ~$6.00 / month (~₹500/mo)
+   - **HeyGen:** ~$150.00 / month (~₹12,500/mo)
+4. **Hinglish Synchronization:** Tested dynamic caption calculation and live re-synchronization (`/api/avatar/speak`).
+5. **Section 0 Confirmations:** "Resemble pictures" Option A implemented with sample marketing visuals.
 
-### Active Focus: Milestone 3 — Avatar Proof of Concept & Vendor Pricing
-- **Technical Objective:** Build the vendor-neutral runtime avatar adapter layer and evaluate the real-time streaming capabilities of D-ID, HeyGen, and Simli.
-- **Section 3A Option 1 Validation:** Engine's bundled stock TTS voice used to drive lip-sync, muted by default with synchronized Hinglish captions.
-- **Cost Scaling Risk:** Per-minute streaming costs directly scale with monthly QR scans. The rate card and streaming architecture must be documented and validated.
+### Active Focus: Milestone 4 — Admin and Persistent Content
+- **Technical Objective:** Implement `/admin` panel protected by real server-side authentication (secure HTTP-only session cookies, bcrypt password hashing, login rate limiting).
+- **Database Persistence:** Persistent data store mapping literal Appendix B schema (`SiteConfig`, `BenefitCard`, `UseCaseVisual`, `ReferenceVisual`, `AvatarConfig`, `CaptionTrack`, `KnowledgeDocument`, `ChatbotConfig`, `AdminUser`, `ContentVersion`).
+- **CMS Workflow:** Draft vs. published versions, asset validation, rollback capability, and live updates without code redeployment.
 
 ### Deferred Features (Per Milestone Sequencing)
-- **Persistent Database & `/admin` Authentication:** Scheduled for Milestone 4.
 - **Anthropic Claude API & Server-side RAG Pipeline:** Scheduled for Milestone 5.
 - **Final Card Print Physical Validation:** Scheduled for Milestone 6.

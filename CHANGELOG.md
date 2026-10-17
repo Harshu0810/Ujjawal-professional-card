@@ -3,6 +3,34 @@
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
 This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
 
+## [UX & Conversion Enhancements] - 2026-10-17
+### Added
+- **Dark Mode Toggle (`src/components/ThemeToggle.tsx`):**
+  - Smooth light/dark theme switcher powered by `useSyncExternalStore` and `localStorage` persistence (`ujjawal_theme`).
+  - Seamless color system transition between light (slate-50 / white cards) and dark (slate-950 / glassmorphism) themes.
+- **Scroll Progress Bar (`src/components/ScrollProgressBar.tsx`):**
+  - Viewport-width gradient progress indicator fixed at top with smooth scroll calculation.
+- **Sticky Header Enhancement:**
+  - Dynamic glassmorphic elevation and border transitions on scroll (`isScrolled`), incorporating desktop jump navigation.
+- **Copy-to-Clipboard Buttons (`src/components/CopyButton.tsx`):**
+  - Instant one-click copy with animated checkmark and "Copied!" popover tooltip for email, WhatsApp, website URL, and QR fallback link.
+- **UTM Tracking & Inquiry Form (`src/components/UtmInquiryForm.tsx` & `src/app/api/inquiry/route.ts`):**
+  - Automatic URL and referrer parameter capture (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`).
+  - Visual attribution badge displaying real-time tracking metrics to visitors.
+  - Interactive lead capture form with monthly spend brackets and bottleneck selection.
+  - Full loading state (spinner), validation error states, and celebratory success state.
+- **Floating Contact Dock (`src/components/FloatingContactDock.tsx`):**
+  - Collapsible floating speed-dial dock in bottom corner with direct action links for:
+    - **WhatsApp** (pre-filled greeting message)
+    - **Instagram** (`@ujjawal.growth`)
+    - **LinkedIn** (`/in/ujjawal-marketer`)
+    - **Strategy Call Booking** (`cal.com/ujjawal/intro`)
+  - Smooth hover tooltips and micro-interactions.
+- **Loading Animations & Error States:**
+  - Shimmer loading skeleton placeholders for value proposition cards during data synchronization.
+  - Global error banner with one-click "Retry Sync" action if CMS API fails.
+  - Card hover lift (`hover:-translate-y-1.5`) and glowing border states.
+
 ## [Milestone 7] - 2026-10-17
 ### Added
 - Completed end-to-end production audit against the Section 8 Acceptance Checklist:

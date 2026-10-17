@@ -2,26 +2,26 @@
 
 This file tracks technical limitations, pending decisions, and temporary placeholders across milestones.
 
-## Milestone 4 Status (Completed)
+## Milestone 5 Status (Completed)
 
 ### Resolved Items & Technical Validations
-1. **Server-Side Authentication & Session Management:**
-   - Implemented PBKDF2 with SHA-512 and salt password hashing.
-   - Enforced cryptographically signed HMAC-SHA256 session cookies (`HttpOnly; Secure; SameSite=Strict; Path=/`).
-   - Added in-memory sliding window rate limiting (5 attempts / 15 minutes lockout) with safe generic error messages.
-2. **Persistent Database (Appendix B Schema):**
-   - File-backed persistent database (`data/content_store.json`) with atomic swap writes.
-   - Full Appendix B relational & document structures: `SiteConfig`, `BenefitCard`, `UseCaseVisual`, `ReferenceVisual`, `AvatarConfig`, `CaptionTrack`, `KnowledgeDocument`, `ChatbotConfig`, `AdminUser`, `ContentVersion`.
-   - Separate draft vs. published state.
-   - Full version snapshot history and one-click rollback system (`/api/admin/rollback`).
-3. **Live CMS Updates:**
-   - Public site (`src/app/page.tsx`) queries published content via `/api/content`, showing immediate updates without code rebuilds or redeployment.
-4. **Admin Dashboard UI (`/admin`):**
-   - Implemented complete management controls across 7 tabs: Brand & Page, Benefits, Bottlenecks & References, Avatar & Speech with re-sync, Chatbot & RAG knowledge editor, Version history, and Password security.
+1. **RAG Ingestion & Semantic Retrieval:**
+   - Real-time knowledge parser (`src/lib/rag/index.ts`) extracts and scores section chunks from the Appendix A business document.
+   - Grounded context injection into system prompt before every inference request.
+2. **Server-Side Claude API Integration:**
+   - Built Anthropic Messages API client (`src/lib/chatbot/claude.ts`) targeting `claude-haiku-5-5`.
+   - Strict adherence to Appendix D system prompt rules: admits missing knowledge, redirects off-topic requests, and never claims to be human.
+   - Zero-API-key local sandbox engine providing full conversational and lead qualification responses during local testing.
+3. **Chatbot Security & Privacy:**
+   - Per-IP rate limiting (12 messages/min).
+   - Message size validation (max 1,000 characters).
+   - Visible India DPDP Act 2023 notice on chat drawer.
+4. **Interactive Chat Sidebar:**
+   - Responsive drawer with quick suggestion pills, typing state, role badges, and auto-scroll.
 
-### Active Focus: Milestone 5 — Chatbot and RAG Integration
-- **Technical Objective:** Implement server-side Anthropic Claude integration (`claude-haiku-5-5`) with grounded RAG chunk retrieval over the Appendix A business document.
-- **Features:** Conversational one-question-at-a-time lead qualification, prompt-injection defense, off-topic redirection, rate limiting, and visible DPDP Act 2023 consent notice.
+### Active Focus: Milestone 6 — Content, Captions, and QR Code Validation
+- **Technical Objective:** Review all placeholder content labels, validate synchronized Hinglish captions timing against spoken script, and finalize the Section 2A QR code print specification.
+- **Physical QR Requirements:** Error correction Level M/Q, minimum quiet zone (≥4 modules), minimum physical dimension 2×2 cm, high contrast, and direct Vercel URL with human-readable fallback.
 
 ### Deferred Features (Per Milestone Sequencing)
-- **Final Card Print Physical Validation:** Scheduled for Milestone 6.
+- **Production QA, Security Audit, and Handover:** Scheduled for Milestone 7.

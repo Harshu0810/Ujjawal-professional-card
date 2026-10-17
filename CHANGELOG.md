@@ -3,6 +3,27 @@
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
 This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
 
+## [Milestone 5] - 2026-10-17
+### Added
+- Implemented RAG knowledge ingestion and retrieval engine (`src/lib/rag/index.ts`):
+  - Ingests and parses active business knowledge document (Appendix A).
+  - Implemented token scoring and retrieval algorithm retrieving top-K passages based on visitor intent.
+  - Automatic cache invalidation upon knowledge edits in `/admin`.
+- Built server-side Anthropic Claude integration (`src/lib/chatbot/claude.ts`):
+  - Direct HTTPS API client to Anthropic Messages endpoint (`claude-haiku-5-5`).
+  - Strict system prompt architecture complying with Appendix D.
+  - Server-side API key protection (`ANTHROPIC_API_KEY` never sent to client).
+  - Grounded zero-API-key local sandbox fallback engine with off-topic redirection, qualification flow, and honesty guardrails.
+- Created chat API endpoint (`POST /api/chat`):
+  - Per-IP rate limiting (12 messages/min).
+  - Message size validation (max 1,000 characters).
+  - Context window token management.
+- Enhanced `ChatSidebar.tsx` UI:
+  - Real-time conversational loops with dynamic bot and user message bubbles.
+  - Thinking indicators, quick action suggestion pills, and automatic smooth scroll.
+  - Visible India DPDP Act 2023 notice.
+- Verified Next.js production build (`npm run build`) and ESLint (`npm run lint`) pass with 0 errors.
+
 ## [Milestone 4] - 2026-10-17
 ### Added
 - Implemented persistent database storage engine (`src/lib/db/index.ts`) supporting all Appendix B models:

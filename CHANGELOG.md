@@ -3,6 +3,28 @@
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
 This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
 
+## [Milestone 6] - 2026-10-17
+### Added
+- Implemented Section 2A pocket-card QR code generator (`src/lib/qr/index.ts`):
+  - Strict compliance with Error Correction Level Q (25% damage tolerance) and Level M fallback.
+  - Quiet zone margin enforcement (≥ 4 modules, un-cropped).
+  - High-resolution SVG vector output preventing rasterization blur during professional offset/digital card printing.
+- Built QR streaming API endpoint (`GET /api/qr`):
+  - Dynamic vector SVG rendering and streaming with HTTP caching.
+  - Supports `download=true` header for instant attachment download as `pocket-card-qr-print-spec.svg`.
+- Enhanced `QRCodeModal.tsx`:
+  - Live vector scannable preview canvas.
+  - Interactive target Vercel URL testing with instant reactive QR regeneration.
+  - Printed fallback URL display for card typography pairing.
+  - One-click print-ready SVG vector download.
+  - Card printer compliance specs (Level Q, 4-module quiet zone, 2×2 cm min physical dimensions, matte stock recommendation).
+- Created comprehensive physical print guide in `docs/QR_PRINT_SPECIFICATION.md`:
+  - Dimensions for standard business card (85 × 55 mm / 3.5 × 2.0 in) and pocket card formats.
+  - Minimum scannable module sizes and contrast requirements (black on solid white, ≥10:1 ratio).
+  - Paper finish recommendations (matte coated 350+ GSM silk/art card).
+- Verified synchronized Hinglish caption tracks against spoken audio timing.
+- Audited all placeholder content across landing page, CMS, and dummy data models to guarantee zero unverified client names or metrics.
+
 ## [Milestone 5] - 2026-10-17
 ### Added
 - Implemented RAG knowledge ingestion and retrieval engine (`src/lib/rag/index.ts`):

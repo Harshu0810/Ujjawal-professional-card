@@ -2,26 +2,26 @@
 
 This file tracks technical limitations, pending decisions, and temporary placeholders across milestones.
 
-## Milestone 5 Status (Completed)
+## Milestone 6 Status (Completed)
 
 ### Resolved Items & Technical Validations
-1. **RAG Ingestion & Semantic Retrieval:**
-   - Real-time knowledge parser (`src/lib/rag/index.ts`) extracts and scores section chunks from the Appendix A business document.
-   - Grounded context injection into system prompt before every inference request.
-2. **Server-Side Claude API Integration:**
-   - Built Anthropic Messages API client (`src/lib/chatbot/claude.ts`) targeting `claude-haiku-5-5`.
-   - Strict adherence to Appendix D system prompt rules: admits missing knowledge, redirects off-topic requests, and never claims to be human.
-   - Zero-API-key local sandbox engine providing full conversational and lead qualification responses during local testing.
-3. **Chatbot Security & Privacy:**
-   - Per-IP rate limiting (12 messages/min).
-   - Message size validation (max 1,000 characters).
-   - Visible India DPDP Act 2023 notice on chat drawer.
-4. **Interactive Chat Sidebar:**
-   - Responsive drawer with quick suggestion pills, typing state, role badges, and auto-scroll.
+1. **Section 2A QR Generation & Print Specs:**
+   - Implemented high-precision QR generator (`src/lib/qr/index.ts`) adhering to Error Correction Level Q (25% damage recovery) and Level M fallback.
+   - Guaranteed ≥4 modules quiet zone margin to prevent print boundary clipping.
+   - Built `/api/qr` streaming endpoint providing vector SVG rendering and download attachment.
+   - Created comprehensive print documentation in `docs/QR_PRINT_SPECIFICATION.md` detailing physical sizing (≥ 2×2 cm), contrast (≥10:1), and matte paper finishes.
+2. **Interactive QR Modal:**
+   - Added `QRCodeModal.tsx` allowing one-click vector SVG download and live preview with reactive URL testing.
+3. **Caption & Script Validation:**
+   - Synchronized Hinglish caption tracks verified against spoken audio timings.
+4. **Placeholder Content Audit:**
+   - Verified that zero unverified client names, metrics, or awards exist across UI and data files.
 
-### Active Focus: Milestone 6 — Content, Captions, and QR Code Validation
-- **Technical Objective:** Review all placeholder content labels, validate synchronized Hinglish captions timing against spoken script, and finalize the Section 2A QR code print specification.
-- **Physical QR Requirements:** Error correction Level M/Q, minimum quiet zone (≥4 modules), minimum physical dimension 2×2 cm, high contrast, and direct Vercel URL with human-readable fallback.
-
-### Deferred Features (Per Milestone Sequencing)
-- **Production QA, Security Audit, and Handover:** Scheduled for Milestone 7.
+### Active Focus: Milestone 7 — Production QA, Security Review, and Launch Handover
+- **Objective:** Final end-to-end verification across the Section 8 Acceptance Checklist:
+  - Preloader fail-open behavior.
+  - Runtime avatar lip-sync & Section 3A Option 1 compliance.
+  - Admin CMS authentication, persistent database writes, and rollback verification.
+  - Chatbot RAG grounding, prompt injection defenses, off-topic deflection, and India DPDP Act 2023 compliance.
+  - Zero secrets in client-side bundles or git history.
+  - Comprehensive handover manual (`docs/HANDOVER_GUIDE.md`).

@@ -2,23 +2,26 @@
 
 This file tracks technical limitations, pending decisions, and temporary placeholders across milestones.
 
-## Milestone 3 Status (Completed)
+## Milestone 4 Status (Completed)
 
 ### Resolved Items & Technical Validations
-1. **Avatar Adapter Layer:** Built vendor-neutral adapter architecture (`src/lib/avatar/`) supporting D-ID, Simli, HeyGen, and Mock local development.
-2. **Section 3A Option 1 Validation:** Confirmed that stock/bundled TTS voices drive phoneme/lip-sync accurately in D-ID and Simli without add-on voice cloning charges.
-3. **Cost Scaling Projections:** Documented comprehensive traffic modeling in `docs/AVATAR_POC_EVALUATION.md`. Evaluated at 100 scans/month:
-   - **Simli:** ~$0.90 / month (~₹75/mo)
-   - **D-ID:** ~$6.00 / month (~₹500/mo)
-   - **HeyGen:** ~$150.00 / month (~₹12,500/mo)
-4. **Hinglish Synchronization:** Tested dynamic caption calculation and live re-synchronization (`/api/avatar/speak`).
-5. **Section 0 Confirmations:** "Resemble pictures" Option A implemented with sample marketing visuals.
+1. **Server-Side Authentication & Session Management:**
+   - Implemented PBKDF2 with SHA-512 and salt password hashing.
+   - Enforced cryptographically signed HMAC-SHA256 session cookies (`HttpOnly; Secure; SameSite=Strict; Path=/`).
+   - Added in-memory sliding window rate limiting (5 attempts / 15 minutes lockout) with safe generic error messages.
+2. **Persistent Database (Appendix B Schema):**
+   - File-backed persistent database (`data/content_store.json`) with atomic swap writes.
+   - Full Appendix B relational & document structures: `SiteConfig`, `BenefitCard`, `UseCaseVisual`, `ReferenceVisual`, `AvatarConfig`, `CaptionTrack`, `KnowledgeDocument`, `ChatbotConfig`, `AdminUser`, `ContentVersion`.
+   - Separate draft vs. published state.
+   - Full version snapshot history and one-click rollback system (`/api/admin/rollback`).
+3. **Live CMS Updates:**
+   - Public site (`src/app/page.tsx`) queries published content via `/api/content`, showing immediate updates without code rebuilds or redeployment.
+4. **Admin Dashboard UI (`/admin`):**
+   - Implemented complete management controls across 7 tabs: Brand & Page, Benefits, Bottlenecks & References, Avatar & Speech with re-sync, Chatbot & RAG knowledge editor, Version history, and Password security.
 
-### Active Focus: Milestone 4 — Admin and Persistent Content
-- **Technical Objective:** Implement `/admin` panel protected by real server-side authentication (secure HTTP-only session cookies, bcrypt password hashing, login rate limiting).
-- **Database Persistence:** Persistent data store mapping literal Appendix B schema (`SiteConfig`, `BenefitCard`, `UseCaseVisual`, `ReferenceVisual`, `AvatarConfig`, `CaptionTrack`, `KnowledgeDocument`, `ChatbotConfig`, `AdminUser`, `ContentVersion`).
-- **CMS Workflow:** Draft vs. published versions, asset validation, rollback capability, and live updates without code redeployment.
+### Active Focus: Milestone 5 — Chatbot and RAG Integration
+- **Technical Objective:** Implement server-side Anthropic Claude integration (`claude-haiku-5-5`) with grounded RAG chunk retrieval over the Appendix A business document.
+- **Features:** Conversational one-question-at-a-time lead qualification, prompt-injection defense, off-topic redirection, rate limiting, and visible DPDP Act 2023 consent notice.
 
 ### Deferred Features (Per Milestone Sequencing)
-- **Anthropic Claude API & Server-side RAG Pipeline:** Scheduled for Milestone 5.
 - **Final Card Print Physical Validation:** Scheduled for Milestone 6.

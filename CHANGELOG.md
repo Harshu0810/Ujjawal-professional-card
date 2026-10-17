@@ -3,6 +3,31 @@
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
 This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
 
+## [Milestone 4] - 2026-10-17
+### Added
+- Implemented persistent database storage engine (`src/lib/db/index.ts`) supporting all Appendix B models:
+  - `SiteConfig`, `BenefitCard`, `UseCaseVisual`, `ReferenceVisual`, `AvatarConfig`, `CaptionTrack`, `KnowledgeDocument`, `ChatbotConfig`, `AdminUser`, `ContentVersion`.
+  - Atomic write guarantees with temporary file swap and auto-seeding.
+  - Draft vs. published state management with version snapshot creation.
+  - Snapshot rollback system (`rollbackToVersion`).
+- Built secure server-side `/admin` authentication:
+  - PBKDF2 with SHA-512 and salt password hashing (`src/lib/auth/password.ts`).
+  - Cryptographically signed HMAC-SHA256 session cookies (`HttpOnly; SameSite=Strict; Path=/`) (`src/lib/auth/session.ts`).
+  - Sliding window login rate limiting with generic error messages (`src/lib/auth/rateLimit.ts`).
+- Created secure admin API routes:
+  - `POST /api/admin/login`: rate-limited authentication and session creation.
+  - `POST /api/admin/logout`: session cookie invalidation.
+  - `GET /api/admin/session`: active session verification.
+  - `GET /api/admin/content` & `POST /api/admin/content`: draft read and update.
+  - `POST /api/admin/publish`: promote drafts to published live state with version snapshot.
+  - `POST /api/admin/rollback`: restore previous content snapshot.
+  - `POST /api/admin/change-password`: owner password update.
+  - `GET /api/content`: public live content endpoint.
+- Built comprehensive `/admin` CMS dashboard with tabbed controls:
+  - Brand & Page configuration, Benefit cards, Bottlenecks & References, Avatar script & caption synchronization, Chatbot & RAG knowledge editor, Version history with rollbacks, and Account security.
+- Updated public landing page (`src/app/page.tsx`) to dynamically load published content from the persistent database on mount, enabling live CMS updates without code redeployment.
+- Verified zero errors and zero warnings across Next.js build and ESLint.
+
 ## [Milestone 3] - 2026-10-17
 ### Added
 - Built vendor-neutral runtime avatar adapter layer (`src/lib/avatar/`):

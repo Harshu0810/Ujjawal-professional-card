@@ -1,0 +1,576 @@
+{
+  "siteConfig": {
+    "published": {
+      "logoAssetId": "/images/logo.svg",
+      "faviconAssetId": "/favicon.ico",
+      "brandColors": [
+        "#0f172a",
+        "#3b82f6",
+        "#10b981"
+      ],
+      "fontChoice": "Inter, system-ui, sans-serif",
+      "taglines": [
+        "[PLACEHOLDER: AI-Powered Digital Marketing & Growth Engineering]",
+        "[PLACEHOLDER: Scaling Customer Acquisition with Precision Funnels]"
+      ],
+      "headline": "[PLACEHOLDER: Scaling Brands with Intelligent Performance Marketing]",
+      "introText": "[PLACEHOLDER: Hi, I am Ujjawal — an AI digital marketer combining performance advertising, conversion-driven funnels, and automated growth workflows to scale customer acquisition.]",
+      "aboutText": "[PLACEHOLDER: With a focus on measurable revenue impact, I partner with ambitious founders and marketing leaders to design and execute high-converting digital acquisition funnels.]",
+      "preloaderText": "[PLACEHOLDER: AI Performance Marketing • Funnel Architecture • Growth Systems]",
+      "preloaderAssetId": "/images/logo.svg",
+      "preloaderDurationMs": 1800,
+      "footerText": "© 2026 [PLACEHOLDER: Ujjawal - AI Digital Marketer]. All rights reserved. [PLACEHOLDER DUMMY CONTENT]",
+      "privacyConsentText": "Privacy Notice: We respect your privacy in accordance with DPDP Act 2023 principles. Visitor interaction data is used solely to respond to inquiries.",
+      "contactLinks": [
+        {
+          "label": "[PLACEHOLDER: Book Strategy Call]",
+          "url": "#contact",
+          "type": "cal"
+        },
+        {
+          "label": "[PLACEHOLDER: WhatsApp Chat]",
+          "url": "https://wa.me/placeholder",
+          "type": "whatsapp"
+        },
+        {
+          "label": "[PLACEHOLDER: Email Inquiry]",
+          "url": "mailto:placeholder@example.com",
+          "type": "email"
+        }
+      ],
+      "socialLinks": [
+        {
+          "platform": "linkedin",
+          "url": "https://linkedin.com/in/placeholder",
+          "label": "LinkedIn"
+        },
+        {
+          "platform": "twitter",
+          "url": "https://x.com/placeholder",
+          "label": "X (Twitter)"
+        }
+      ],
+      "ctaLabel": "[PLACEHOLDER: Start a Conversation]",
+      "ctaTarget": "#chat"
+    },
+    "draft": {
+      "logoAssetId": "/images/logo.svg",
+      "faviconAssetId": "/favicon.ico",
+      "brandColors": [
+        "#0f172a",
+        "#3b82f6",
+        "#10b981"
+      ],
+      "fontChoice": "Inter, system-ui, sans-serif",
+      "taglines": [
+        "[PLACEHOLDER: AI-Powered Digital Marketing & Growth Engineering]",
+        "[PLACEHOLDER: Scaling Customer Acquisition with Precision Funnels]"
+      ],
+      "headline": "[PLACEHOLDER: Scaling Brands with Intelligent Performance Marketing]",
+      "introText": "[PLACEHOLDER: Hi, I am Ujjawal — an AI digital marketer combining performance advertising, conversion-driven funnels, and automated growth workflows to scale customer acquisition.]",
+      "aboutText": "[PLACEHOLDER: With a focus on measurable revenue impact, I partner with ambitious founders and marketing leaders to design and execute high-converting digital acquisition funnels.]",
+      "preloaderText": "[PLACEHOLDER: AI Performance Marketing • Funnel Architecture • Growth Systems]",
+      "preloaderAssetId": "/images/logo.svg",
+      "preloaderDurationMs": 1800,
+      "footerText": "© 2026 [PLACEHOLDER: Ujjawal - AI Digital Marketer]. All rights reserved. [PLACEHOLDER DUMMY CONTENT]",
+      "privacyConsentText": "Privacy Notice: We respect your privacy in accordance with DPDP Act 2023 principles. Visitor interaction data is used solely to respond to inquiries.",
+      "contactLinks": [
+        {
+          "label": "[PLACEHOLDER: Book Strategy Call]",
+          "url": "#contact",
+          "type": "cal"
+        },
+        {
+          "label": "[PLACEHOLDER: WhatsApp Chat]",
+          "url": "https://wa.me/placeholder",
+          "type": "whatsapp"
+        },
+        {
+          "label": "[PLACEHOLDER: Email Inquiry]",
+          "url": "mailto:placeholder@example.com",
+          "type": "email"
+        }
+      ],
+      "socialLinks": [
+        {
+          "platform": "linkedin",
+          "url": "https://linkedin.com/in/placeholder",
+          "label": "LinkedIn"
+        },
+        {
+          "platform": "twitter",
+          "url": "https://x.com/placeholder",
+          "label": "X (Twitter)"
+        }
+      ],
+      "ctaLabel": "[PLACEHOLDER: Start a Conversation]",
+      "ctaTarget": "#chat"
+    }
+  },
+  "benefits": {
+    "published": [
+      {
+        "id": "benefit-1",
+        "title": "[PLACEHOLDER: AI-Accelerated Creative Velocity]",
+        "description": "[PLACEHOLDER: Test 5-10x more ad creative variations and hooks in fraction of traditional agency turnaround times.]",
+        "iconOrImageAssetId": "zap",
+        "order": 1
+      },
+      {
+        "id": "benefit-2",
+        "title": "[PLACEHOLDER: Full-Funnel Architecture]",
+        "description": "[PLACEHOLDER: Seamless integration connecting ad hooks, dynamic landing page copy, and automated CRM lead capture.]",
+        "iconOrImageAssetId": "layers",
+        "order": 2
+      },
+      {
+        "id": "benefit-3",
+        "title": "[PLACEHOLDER: Transparent KPI Attribution]",
+        "description": "[PLACEHOLDER: Live dashboards tracking return on ad spend (ROAS), customer acquisition cost (CAC), and pipeline value.]",
+        "iconOrImageAssetId": "bar-chart",
+        "order": 3
+      },
+      {
+        "id": "benefit-4",
+        "title": "[PLACEHOLDER: Direct Specialist Attention]",
+        "description": "[PLACEHOLDER: No junior account middle-managers. Direct strategic collaboration with your dedicated growth engineer.]",
+        "iconOrImageAssetId": "user-check",
+        "order": 4
+      }
+    ],
+    "draft": [
+      {
+        "id": "benefit-1",
+        "title": "[PLACEHOLDER: AI-Accelerated Creative Velocity]",
+        "description": "[PLACEHOLDER: Test 5-10x more ad creative variations and hooks in fraction of traditional agency turnaround times.]",
+        "iconOrImageAssetId": "zap",
+        "order": 1
+      },
+      {
+        "id": "benefit-2",
+        "title": "[PLACEHOLDER: Full-Funnel Architecture]",
+        "description": "[PLACEHOLDER: Seamless integration connecting ad hooks, dynamic landing page copy, and automated CRM lead capture.]",
+        "iconOrImageAssetId": "layers",
+        "order": 2
+      },
+      {
+        "id": "benefit-3",
+        "title": "[PLACEHOLDER: Transparent KPI Attribution]",
+        "description": "[PLACEHOLDER: Live dashboards tracking return on ad spend (ROAS), customer acquisition cost (CAC), and pipeline value.]",
+        "iconOrImageAssetId": "bar-chart",
+        "order": 3
+      },
+      {
+        "id": "benefit-4",
+        "title": "[PLACEHOLDER: Direct Specialist Attention]",
+        "description": "[PLACEHOLDER: No junior account middle-managers. Direct strategic collaboration with your dedicated growth engineer.]",
+        "iconOrImageAssetId": "user-check",
+        "order": 4
+      }
+    ]
+  },
+  "useCases": {
+    "published": [
+      {
+        "id": "uc-1",
+        "title": "[PLACEHOLDER USE CASE: Breaking Stagnant Ad Fatigue]",
+        "description": "[PLACEHOLDER: Re-igniting customer acquisition when previous winning ads burn out and customer acquisition costs spike.]",
+        "imageAssetId": "/images/ad-fatigue.svg",
+        "order": 1
+      },
+      {
+        "id": "uc-2",
+        "title": "[PLACEHOLDER USE CASE: Fixing Post-Click Lead Leakage]",
+        "description": "[PLACEHOLDER: Auditing high-traffic, low-converting landing pages to plug funnel drops and boost conversion rate.]",
+        "imageAssetId": "/images/funnel-leakage.svg",
+        "order": 2
+      },
+      {
+        "id": "uc-3",
+        "title": "[PLACEHOLDER USE CASE: Automated Inbound Qualification]",
+        "description": "[PLACEHOLDER: Integrating instant AI conversational lead qualification to prevent lost inquiries during off-hours.]",
+        "imageAssetId": "/images/lead-automation.svg",
+        "order": 3
+      }
+    ],
+    "draft": [
+      {
+        "id": "uc-1",
+        "title": "[PLACEHOLDER USE CASE: Breaking Stagnant Ad Fatigue]",
+        "description": "[PLACEHOLDER: Re-igniting customer acquisition when previous winning ads burn out and customer acquisition costs spike.]",
+        "imageAssetId": "/images/ad-fatigue.svg",
+        "order": 1
+      },
+      {
+        "id": "uc-2",
+        "title": "[PLACEHOLDER USE CASE: Fixing Post-Click Lead Leakage]",
+        "description": "[PLACEHOLDER: Auditing high-traffic, low-converting landing pages to plug funnel drops and boost conversion rate.]",
+        "imageAssetId": "/images/funnel-leakage.svg",
+        "order": 2
+      },
+      {
+        "id": "uc-3",
+        "title": "[PLACEHOLDER USE CASE: Automated Inbound Qualification]",
+        "description": "[PLACEHOLDER: Integrating instant AI conversational lead qualification to prevent lost inquiries during off-hours.]",
+        "imageAssetId": "/images/lead-automation.svg",
+        "order": 3
+      }
+    ]
+  },
+  "referenceVisuals": {
+    "published": [
+      {
+        "id": "ref-1",
+        "caption": "[SAMPLE REFERENCE: Multi-Channel Growth Analytics Dashboard]",
+        "imageAssetId": "/images/metric-dashboard.svg",
+        "order": 1
+      },
+      {
+        "id": "ref-2",
+        "caption": "[SAMPLE REFERENCE: Ad Creative Testing & Fatigue Prevention Matrix]",
+        "imageAssetId": "/images/creative-matrix.svg",
+        "order": 2
+      },
+      {
+        "id": "ref-3",
+        "caption": "[SAMPLE REFERENCE: Inbound Attribution & Pipeline Funnel Engine]",
+        "imageAssetId": "/images/pipeline-map.svg",
+        "order": 3
+      }
+    ],
+    "draft": [
+      {
+        "id": "ref-1",
+        "caption": "[SAMPLE REFERENCE: Multi-Channel Growth Analytics Dashboard]",
+        "imageAssetId": "/images/metric-dashboard.svg",
+        "order": 1
+      },
+      {
+        "id": "ref-2",
+        "caption": "[SAMPLE REFERENCE: Ad Creative Testing & Fatigue Prevention Matrix]",
+        "imageAssetId": "/images/creative-matrix.svg",
+        "order": 2
+      },
+      {
+        "id": "ref-3",
+        "caption": "[SAMPLE REFERENCE: Inbound Attribution & Pipeline Funnel Engine]",
+        "imageAssetId": "/images/pipeline-map.svg",
+        "order": 3
+      }
+    ]
+  },
+  "avatarConfig": {
+    "published": {
+      "avatarAssetId": "/images/dummy-avatar-photo.png",
+      "engineName": "d-id",
+      "engineAvatarId": "avatar_ujjawal_draft",
+      "scriptText": "Namaste! Main hoon Ujjawal, aapka AI Digital Marketing partner. Main aapke business ke customer acquisition aur sales funnels ko scale karne mein help karta hoon.",
+      "language": "hinglish",
+      "speechStyle": "warm-professional",
+      "tone": "confident",
+      "accent": "indian-english",
+      "speedMultiplier": 1,
+      "playbackMode": "autoplay-muted",
+      "renderStatus": "idle"
+    },
+    "draft": {
+      "avatarAssetId": "/images/dummy-avatar-photo.png",
+      "engineName": "d-id",
+      "engineAvatarId": "avatar_ujjawal_draft",
+      "scriptText": "Namaste! Main hoon Ujjawal, aapka AI Digital Marketing partner. Main aapke business ke customer acquisition aur sales funnels ko scale karne mein help karta hoon.",
+      "language": "hinglish",
+      "speechStyle": "warm-professional",
+      "tone": "confident",
+      "accent": "indian-english",
+      "speedMultiplier": 1,
+      "playbackMode": "autoplay-muted",
+      "renderStatus": "idle"
+    }
+  },
+  "captionTrack": {
+    "published": {
+      "avatarConfigId": "avatar_ujjawal_draft",
+      "segments": [
+        {
+          "startMs": 0,
+          "endMs": 2200,
+          "text": "Namaste! Main hoon Ujjawal, aapka AI Digital Marketing partner."
+        },
+        {
+          "startMs": 2200,
+          "endMs": 5000,
+          "text": "Main aapke business ke customer acquisition aur sales funnels ko"
+        },
+        {
+          "startMs": 5000,
+          "endMs": 7800,
+          "text": "scale karne mein help karta hoon."
+        }
+      ],
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": "1.05rem",
+      "textColor": "#ffffff",
+      "backgroundColor": "rgba(0, 0, 0, 0.75)",
+      "position": "bottom-center",
+      "needsResync": false
+    },
+    "draft": {
+      "avatarConfigId": "avatar_ujjawal_draft",
+      "segments": [
+        {
+          "startMs": 0,
+          "endMs": 2200,
+          "text": "Namaste! Main hoon Ujjawal, aapka AI Digital Marketing partner."
+        },
+        {
+          "startMs": 2200,
+          "endMs": 5000,
+          "text": "Main aapke business ke customer acquisition aur sales funnels ko"
+        },
+        {
+          "startMs": 5000,
+          "endMs": 7800,
+          "text": "scale karne mein help karta hoon."
+        }
+      ],
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": "1.05rem",
+      "textColor": "#ffffff",
+      "backgroundColor": "rgba(0, 0, 0, 0.75)",
+      "position": "bottom-center",
+      "needsResync": false
+    }
+  },
+  "knowledgeDocument": {
+    "published": {
+      "id": "kb-default-v1",
+      "versionNumber": 1,
+      "content": "# [DRAFT / DUMMY PLACEHOLDER] Business Knowledge Document (Appendix A RAG Source)\n**Status:** DRAFT / DUMMY CONTENT ONLY\n- Legal / Working Name: [DUMMY PLACEHOLDER: Ujjawal - AI Digital Marketer]\n- Positioning: Helping brands scale customer acquisition with AI marketing systems.",
+      "lastIndexedAt": "2026-10-17T16:10:17.598Z",
+      "ownerApproved": false
+    },
+    "draft": {
+      "id": "kb-default-v1",
+      "versionNumber": 1,
+      "content": "# [DRAFT / DUMMY PLACEHOLDER] Business Knowledge Document (Appendix A RAG Source)\n**Status:** DRAFT / DUMMY CONTENT ONLY\n- Legal / Working Name: [DUMMY PLACEHOLDER: Ujjawal - AI Digital Marketer]\n- Positioning: Helping brands scale customer acquisition with AI marketing systems.",
+      "lastIndexedAt": "2026-10-17T16:10:17.598Z",
+      "ownerApproved": false
+    }
+  },
+  "chatbotConfig": {
+    "published": {
+      "greeting": "Hi there! I am the AI assistant for Ujjawal’s digital marketing business. Would you like a quick overview of what he does, or do you have a specific question about your marketing goals?",
+      "introSummary": "Ujjawal is an AI digital marketer specializing in performance ad campaigns, conversion funnel optimization, and automated lead acquisition systems.",
+      "leadQuestions": [
+        "What role do you play in your company, and what does your business do?",
+        "Where is your business located, and what is your primary target market?",
+        "What is your main growth or revenue target for the next quarter?",
+        "How do you currently acquire most of your leads or customers?",
+        "What is the single biggest bottleneck in your current marketing funnel?"
+      ],
+      "fallbackResponse": "I do not have specific verified information on that in Ujjawal’s approved business profile. Would you like to connect with him directly via email or schedule a quick discovery call?",
+      "allowedTopicsNote": "Digital marketing services, AI marketing workflows, working process, engagement models, and booking discovery calls.",
+      "modelName": "claude-haiku-5-5",
+      "maxOutputTokens": 350,
+      "rateLimitPerSessionPerMinute": 6
+    },
+    "draft": {
+      "greeting": "Hi there! I am the AI assistant for Ujjawal’s digital marketing business. Would you like a quick overview of what he does, or do you have a specific question about your marketing goals?",
+      "introSummary": "Ujjawal is an AI digital marketer specializing in performance ad campaigns, conversion funnel optimization, and automated lead acquisition systems.",
+      "leadQuestions": [
+        "What role do you play in your company, and what does your business do?",
+        "Where is your business located, and what is your primary target market?",
+        "What is your main growth or revenue target for the next quarter?",
+        "How do you currently acquire most of your leads or customers?",
+        "What is the single biggest bottleneck in your current marketing funnel?"
+      ],
+      "fallbackResponse": "I do not have specific verified information on that in Ujjawal’s approved business profile. Would you like to connect with him directly via email or schedule a quick discovery call?",
+      "allowedTopicsNote": "Digital marketing services, AI marketing workflows, working process, engagement models, and booking discovery calls.",
+      "modelName": "claude-haiku-5-5",
+      "maxOutputTokens": 350,
+      "rateLimitPerSessionPerMinute": 6
+    }
+  },
+  "adminUsers": [
+    {
+      "id": "admin-1",
+      "username": "ujjawal_admin",
+      "passwordHash": "7e2e9d6615a98d74d5a64971a8309cf6:72d8cc53cd68b9de562f6c20329efafda7d04f10010efff9e49717c6f1e1bade7ec47f5c9cd37bc8d3a831edd5dbe224508fa5faed7d240b6278f782c954971b"
+    }
+  ],
+  "versions": [
+    {
+      "id": "v-initial-1",
+      "targetEntity": "all",
+      "snapshot": {
+        "siteConfig": {
+          "logoAssetId": "/images/logo.svg",
+          "faviconAssetId": "/favicon.ico",
+          "brandColors": [
+            "#0f172a",
+            "#3b82f6",
+            "#10b981"
+          ],
+          "fontChoice": "Inter, system-ui, sans-serif",
+          "taglines": [
+            "[PLACEHOLDER: AI-Powered Digital Marketing & Growth Engineering]",
+            "[PLACEHOLDER: Scaling Customer Acquisition with Precision Funnels]"
+          ],
+          "headline": "[PLACEHOLDER: Scaling Brands with Intelligent Performance Marketing]",
+          "introText": "[PLACEHOLDER: Hi, I am Ujjawal — an AI digital marketer combining performance advertising, conversion-driven funnels, and automated growth workflows to scale customer acquisition.]",
+          "aboutText": "[PLACEHOLDER: With a focus on measurable revenue impact, I partner with ambitious founders and marketing leaders to design and execute high-converting digital acquisition funnels.]",
+          "preloaderText": "[PLACEHOLDER: AI Performance Marketing • Funnel Architecture • Growth Systems]",
+          "preloaderAssetId": "/images/logo.svg",
+          "preloaderDurationMs": 1800,
+          "footerText": "© 2026 [PLACEHOLDER: Ujjawal - AI Digital Marketer]. All rights reserved. [PLACEHOLDER DUMMY CONTENT]",
+          "privacyConsentText": "Privacy Notice: We respect your privacy in accordance with DPDP Act 2023 principles. Visitor interaction data is used solely to respond to inquiries.",
+          "contactLinks": [
+            {
+              "label": "[PLACEHOLDER: Book Strategy Call]",
+              "url": "#contact",
+              "type": "cal"
+            },
+            {
+              "label": "[PLACEHOLDER: WhatsApp Chat]",
+              "url": "https://wa.me/placeholder",
+              "type": "whatsapp"
+            },
+            {
+              "label": "[PLACEHOLDER: Email Inquiry]",
+              "url": "mailto:placeholder@example.com",
+              "type": "email"
+            }
+          ],
+          "socialLinks": [
+            {
+              "platform": "linkedin",
+              "url": "https://linkedin.com/in/placeholder",
+              "label": "LinkedIn"
+            },
+            {
+              "platform": "twitter",
+              "url": "https://x.com/placeholder",
+              "label": "X (Twitter)"
+            }
+          ],
+          "ctaLabel": "[PLACEHOLDER: Start a Conversation]",
+          "ctaTarget": "#chat"
+        },
+        "benefits": [
+          {
+            "id": "benefit-1",
+            "title": "[PLACEHOLDER: AI-Accelerated Creative Velocity]",
+            "description": "[PLACEHOLDER: Test 5-10x more ad creative variations and hooks in fraction of traditional agency turnaround times.]",
+            "iconOrImageAssetId": "zap",
+            "order": 1
+          },
+          {
+            "id": "benefit-2",
+            "title": "[PLACEHOLDER: Full-Funnel Architecture]",
+            "description": "[PLACEHOLDER: Seamless integration connecting ad hooks, dynamic landing page copy, and automated CRM lead capture.]",
+            "iconOrImageAssetId": "layers",
+            "order": 2
+          },
+          {
+            "id": "benefit-3",
+            "title": "[PLACEHOLDER: Transparent KPI Attribution]",
+            "description": "[PLACEHOLDER: Live dashboards tracking return on ad spend (ROAS), customer acquisition cost (CAC), and pipeline value.]",
+            "iconOrImageAssetId": "bar-chart",
+            "order": 3
+          },
+          {
+            "id": "benefit-4",
+            "title": "[PLACEHOLDER: Direct Specialist Attention]",
+            "description": "[PLACEHOLDER: No junior account middle-managers. Direct strategic collaboration with your dedicated growth engineer.]",
+            "iconOrImageAssetId": "user-check",
+            "order": 4
+          }
+        ],
+        "useCases": [
+          {
+            "id": "uc-1",
+            "title": "[PLACEHOLDER USE CASE: Breaking Stagnant Ad Fatigue]",
+            "description": "[PLACEHOLDER: Re-igniting customer acquisition when previous winning ads burn out and customer acquisition costs spike.]",
+            "imageAssetId": "/images/ad-fatigue.svg",
+            "order": 1
+          },
+          {
+            "id": "uc-2",
+            "title": "[PLACEHOLDER USE CASE: Fixing Post-Click Lead Leakage]",
+            "description": "[PLACEHOLDER: Auditing high-traffic, low-converting landing pages to plug funnel drops and boost conversion rate.]",
+            "imageAssetId": "/images/funnel-leakage.svg",
+            "order": 2
+          },
+          {
+            "id": "uc-3",
+            "title": "[PLACEHOLDER USE CASE: Automated Inbound Qualification]",
+            "description": "[PLACEHOLDER: Integrating instant AI conversational lead qualification to prevent lost inquiries during off-hours.]",
+            "imageAssetId": "/images/lead-automation.svg",
+            "order": 3
+          }
+        ],
+        "referenceVisuals": [
+          {
+            "id": "ref-1",
+            "caption": "[SAMPLE REFERENCE: Multi-Channel Growth Analytics Dashboard]",
+            "imageAssetId": "/images/metric-dashboard.svg",
+            "order": 1
+          },
+          {
+            "id": "ref-2",
+            "caption": "[SAMPLE REFERENCE: Ad Creative Testing & Fatigue Prevention Matrix]",
+            "imageAssetId": "/images/creative-matrix.svg",
+            "order": 2
+          },
+          {
+            "id": "ref-3",
+            "caption": "[SAMPLE REFERENCE: Inbound Attribution & Pipeline Funnel Engine]",
+            "imageAssetId": "/images/pipeline-map.svg",
+            "order": 3
+          }
+        ],
+        "avatarConfig": {
+          "avatarAssetId": "/images/dummy-avatar-photo.png",
+          "engineName": "d-id",
+          "engineAvatarId": "avatar_ujjawal_draft",
+          "scriptText": "Namaste! Main hoon Ujjawal, aapka AI Digital Marketing partner. Main aapke business ke customer acquisition aur sales funnels ko scale karne mein help karta hoon.",
+          "language": "hinglish",
+          "speechStyle": "warm-professional",
+          "tone": "confident",
+          "accent": "indian-english",
+          "speedMultiplier": 1,
+          "playbackMode": "autoplay-muted",
+          "renderStatus": "idle"
+        },
+        "captionTrack": {
+          "avatarConfigId": "avatar_ujjawal_draft",
+          "segments": [
+            {
+              "startMs": 0,
+              "endMs": 2200,
+              "text": "Namaste! Main hoon Ujjawal, aapka AI Digital Marketing partner."
+            },
+            {
+              "startMs": 2200,
+              "endMs": 5000,
+              "text": "Main aapke business ke customer acquisition aur sales funnels ko"
+            },
+            {
+              "startMs": 5000,
+              "endMs": 7800,
+              "text": "scale karne mein help karta hoon."
+            }
+          ],
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "1.05rem",
+          "textColor": "#ffffff",
+          "backgroundColor": "rgba(0, 0, 0, 0.75)",
+          "position": "bottom-center",
+          "needsResync": false
+        }
+      },
+      "publishedAt": "2026-10-17T16:10:17.728Z",
+      "publishedBy": "system"
+    }
+  ]
+}

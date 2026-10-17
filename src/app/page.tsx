@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Preloader from '@/components/Preloader';
 import AvatarPlayer from '@/components/AvatarPlayer';
 import ChatSidebar from '@/components/ChatSidebar';
@@ -15,18 +16,52 @@ import {
   DUMMY_CAPTION_TRACK,
   DUMMY_CHATBOT_CONFIG
 } from '@/data/dummyContent';
+import {
+  SiteConfig,
+  BenefitCard,
+  UseCaseVisual,
+  ReferenceVisual,
+  AvatarConfig,
+  CaptionTrack,
+  ChatbotConfig
+} from '@/types/content';
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [activeZoomImage, setActiveZoomImage] = useState<{ src: string; caption: string } | null>(null);
 
+  // Dynamic content loaded from database
+  const [siteConfig, setSiteConfig] = useState<SiteConfig>(DUMMY_SITE_CONFIG);
+  const [benefits, setBenefits] = useState<BenefitCard[]>(DUMMY_BENEFITS);
+  const [useCases, setUseCases] = useState<UseCaseVisual[]>(DUMMY_USE_CASES);
+  const [referenceVisuals, setReferenceVisuals] = useState<ReferenceVisual[]>(DUMMY_REFERENCE_VISUALS);
+  const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>(DUMMY_AVATAR_CONFIG);
+  const [captionTrack, setCaptionTrack] = useState<CaptionTrack>(DUMMY_CAPTION_TRACK);
+  const [chatbotConfig, setChatbotConfig] = useState<ChatbotConfig>(DUMMY_CHATBOT_CONFIG);
+
+  useEffect(() => {
+    // Fetch live published content from persistent DB
+    fetch('/api/content')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.siteConfig) setSiteConfig(data.siteConfig);
+        if (data.benefits) setBenefits(data.benefits);
+        if (data.useCases) setUseCases(data.useCases);
+        if (data.referenceVisuals) setReferenceVisuals(data.referenceVisuals);
+        if (data.avatarConfig) setAvatarConfig(data.avatarConfig);
+        if (data.captionTrack) setCaptionTrack(data.captionTrack);
+        if (data.chatbotConfig) setChatbotConfig(data.chatbotConfig);
+      })
+      .catch((err) => console.log('Using initial seed content:', err));
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white antialiased">
       {/* 2B. Preloader: fails open after duration */}
       <Preloader
-        text={DUMMY_SITE_CONFIG.preloaderText}
-        durationMs={DUMMY_SITE_CONFIG.preloaderDurationMs}
+        text={siteConfig.preloaderText}
+        durationMs={siteConfig.preloaderDurationMs}
       />
 
       {/* Top Navigation Bar */}
@@ -36,7 +71,7 @@ export default function Home() {
             {/* Logo Image */}
             <div className="h-10 w-10 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center shadow-md shadow-blue-500/20">
               <Image
-                src={DUMMY_SITE_CONFIG.logoAssetId}
+                src={siteConfig.logoAssetId}
                 alt="Ujjawal Brand Logo"
                 width={40}
                 height={40}
@@ -93,15 +128,15 @@ export default function Home() {
           {/* Tagline Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-medium text-blue-400">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-ping" />
-            {DUMMY_SITE_CONFIG.taglines[0]}
+            {siteConfig.taglines[0]}
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            {DUMMY_SITE_CONFIG.headline}
+            {siteConfig.headline}
           </h1>
 
           <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
-            {DUMMY_SITE_CONFIG.introText}
+            {siteConfig.introText}
           </p>
         </section>
 
@@ -120,8 +155,8 @@ export default function Home() {
           </div>
 
           <AvatarPlayer
-            config={DUMMY_AVATAR_CONFIG}
-            captions={DUMMY_CAPTION_TRACK}
+            config={avatarConfig}
+            captions={captionTrack}
           />
         </section>
 
@@ -140,7 +175,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {DUMMY_BENEFITS.map((benefit) => (
+            {benefits.map((benefit) => (
               <div
                 key={benefit.id}
                 id={`card-${benefit.id}`}
@@ -179,7 +214,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {DUMMY_USE_CASES.map((uc) => (
+            {useCases.map((uc) => (
               <div
                 key={uc.id}
                 id={`usecase-${uc.id}`}
@@ -239,7 +274,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {DUMMY_REFERENCE_VISUALS.map((ref) => (
+            {referenceVisuals.map((ref) => (
               <div
                 key={ref.id}
                 id={`refvisual-${ref.id}`}
@@ -290,7 +325,7 @@ export default function Home() {
               <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                 <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
               </svg>
-              <span>{DUMMY_SITE_CONFIG.ctaLabel}</span>
+              <span>{siteConfig.ctaLabel}</span>
             </button>
 
             <button
@@ -311,13 +346,19 @@ export default function Home() {
       <footer id="site-footer" className="border-t border-slate-800/80 bg-slate-950 py-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div>
-            <p>{DUMMY_SITE_CONFIG.footerText}</p>
+            <p>{siteConfig.footerText}</p>
             <p className="text-[11px] text-slate-400 mt-1 max-w-xl">
-              {DUMMY_SITE_CONFIG.privacyConsentText}
+              {siteConfig.privacyConsentText}
             </p>
           </div>
 
           <div className="flex items-center gap-4 text-slate-400">
+            <Link
+              href="/admin"
+              className="text-xs text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1"
+            >
+              <span>🔒 Admin CMS</span>
+            </Link>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800">
               Vercel Deployment Target
             </span>
@@ -327,7 +368,7 @@ export default function Home() {
 
       {/* Collapsible Chatbot Drawer */}
       <ChatSidebar
-        config={DUMMY_CHATBOT_CONFIG}
+        config={chatbotConfig}
         isOpen={isChatOpen}
         onClose={() => setIsChatOpen(false)}
       />

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="lineBefore" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#f97316" />
+    </linearGradient>
+    <linearGradient id="lineAfter" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="360" rx="16" fill="url(#gridGrad)" stroke="#1e293b" stroke-width="2"/>
+  
+  <!-- Subtle Grid lines -->
+  <line x1="60" y1="60" x2="540" y2="60" stroke="#1e293b" stroke-dasharray="4 4"/>
+  <line x1="60" y1="130" x2="540" y2="130" stroke="#1e293b" stroke-dasharray="4 4"/>
+  <line x1="60" y1="200" x2="540" y2="200" stroke="#1e293b" stroke-dasharray="4 4"/>
+  <line x1="60" y1="270" x2="540" y2="270" stroke="#1e293b" stroke-dasharray="4 4"/>
+
+  <!-- Benchmark Axis text -->
+  <text x="50" y="65" fill="#64748b" font-family="sans-serif" font-size="11" text-anchor="end">4.5x</text>
+  <text x="50" y="135" fill="#64748b" font-family="sans-serif" font-size="11" text-anchor="end">3.0x</text>
+  <text x="50" y="205" fill="#64748b" font-family="sans-serif" font-size="11" text-anchor="end">1.8x</text>
+  <text x="50" y="275" fill="#64748b" font-family="sans-serif" font-size="11" text-anchor="end">1.0x</text>
+
+  <!-- Curve: Stagnant Ad Fatigue (Plummeting) -->
+  <path d="M70 120 C140 130 180 230 250 250" fill="none" stroke="url(#lineBefore)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="250" cy="250" r="5" fill="#ef4444"/>
+  <rect x="180" y="265" width="140" height="24" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="1"/>
+  <text x="250" y="281" fill="#fca5a5" font-family="sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Ad Fatigue / Rising CAC</text>
+
+  <!-- Vertical Intervention Marker -->
+  <line x1="270" y1="50" x2="270" y2="290" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="235" y="25" width="130" height="26" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="300" y="42" fill="#93c5fd" font-family="sans-serif" font-size="10" font-weight="bold" text-anchor="middle">⚡ AI Creative Refresh</text>
+
+  <!-- Curve: Rebound & Scale -->
+  <path d="M270 240 C320 230 380 90 530 80" fill="none" stroke="url(#lineAfter)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="530" cy="80" r="6" fill="#10b981"/>
+  <rect x="420" y="55" width="115" height="24" rx="6" fill="#064e3b" stroke="#059669" stroke-width="1"/>
+  <text x="477" y="71" fill="#6ee7b7" font-family="sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Scalable ROAS 3.8x+</text>
+
+  <!-- Title / Legend -->
+  <text x="70" y="325" fill="#94a3b8" font-family="sans-serif" font-size="12" font-weight="600">[USE CASE VISUAL: Ad Fatigue Diagnosis & AI Creative Velocity]</text>
+</svg>

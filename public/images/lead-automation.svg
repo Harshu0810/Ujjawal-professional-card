@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="autoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="360" rx="16" fill="url(#autoBg)" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Step 1: Inbound Visitor -->
+  <rect x="40" y="80" width="130" height="120" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="105" cy="120" r="18" fill="#3b82f6" opacity="0.2"/>
+  <text x="105" y="125" fill="#60a5fa" font-family="sans-serif" font-size="16" text-anchor="middle">👤</text>
+  <text x="105" y="155" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Inbound Visitor</text>
+  <text x="105" y="175" fill="#94a3b8" font-family="sans-serif" font-size="9" text-anchor="middle">QR Scan / Ad Visit</text>
+
+  <!-- Arrow 1 -->
+  <path d="M175 140 L220 140" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="4 2"/>
+  <polygon points="225,140 217,136 217,144" fill="#38bdf8"/>
+
+  <!-- Step 2: AI Conversational Agent -->
+  <rect x="235" y="60" width="150" height="160" rx="14" fill="#0f172a" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="310" cy="105" r="22" fill="#6366f1" opacity="0.2"/>
+  <text x="310" y="112" fill="#a5b4fc" font-family="sans-serif" font-size="20" text-anchor="middle">🤖</text>
+  <text x="310" y="145" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">AI Qualifier</text>
+  <text x="310" y="165" fill="#818cf8" font-family="sans-serif" font-size="9" text-anchor="middle">Claude RAG Engine</text>
+  <text x="310" y="180" fill="#94a3b8" font-family="sans-serif" font-size="8" text-anchor="middle">Role • Goals • Bottlenecks</text>
+  <text x="310" y="195" fill="#34d399" font-family="sans-serif" font-size="8" font-weight="bold" text-anchor="middle">&lt; 30s Instant Response</text>
+
+  <!-- Arrow 2 -->
+  <path d="M390 140 L435 140" stroke="#34d399" stroke-width="2"/>
+  <polygon points="440,140 432,136 432,144" fill="#34d399"/>
+
+  <!-- Step 3: Qualified Call / CRM -->
+  <rect x="450" y="80" width="120" height="120" rx="12" fill="#064e3b" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="510" cy="120" r="18" fill="#10b981" opacity="0.2"/>
+  <text x="510" y="125" fill="#34d399" font-family="sans-serif" font-size="16" text-anchor="middle">📅</text>
+  <text x="510" y="155" fill="#ecfdf5" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Qualified Lead</text>
+  <text x="510" y="175" fill="#a7f3d0" font-family="sans-serif" font-size="9" text-anchor="middle">Calendar / WhatsApp</text>
+
+  <!-- Title / Legend -->
+  <text x="40" y="325" fill="#94a3b8" font-family="sans-serif" font-size="12" font-weight="600">[USE CASE VISUAL: Automated Inbound Qualification & High-Intent Routing]</text>
+</svg>

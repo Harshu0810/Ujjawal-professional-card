@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import Preloader from '@/components/Preloader';
 import AvatarPlayer from '@/components/AvatarPlayer';
 import ChatSidebar from '@/components/ChatSidebar';
@@ -18,9 +19,10 @@ import {
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [activeZoomImage, setActiveZoomImage] = useState<{ src: string; caption: string } | null>(null);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white antialiased">
       {/* 2B. Preloader: fails open after duration */}
       <Preloader
         text={DUMMY_SITE_CONFIG.preloaderText}
@@ -28,12 +30,19 @@ export default function Home() {
       />
 
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+      <header id="site-header" className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {/* Logo Mark */}
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/20">
-              U
+            {/* Logo Image */}
+            <div className="h-10 w-10 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center shadow-md shadow-blue-500/20">
+              <Image
+                src={DUMMY_SITE_CONFIG.logoAssetId}
+                alt="Ujjawal Brand Logo"
+                width={40}
+                height={40}
+                className="w-full h-full object-contain"
+                priority
+              />
             </div>
             <div>
               <span className="font-bold text-sm sm:text-base text-white tracking-tight flex items-center gap-1.5">
@@ -43,7 +52,7 @@ export default function Home() {
                 </span>
               </span>
               <p className="text-[10px] text-slate-400 hidden sm:block">
-                Performance Advertising & Funnel Architecture
+                Performance Advertising &amp; Funnel Architecture
               </p>
             </div>
           </div>
@@ -51,20 +60,22 @@ export default function Home() {
           <div className="flex items-center gap-2 sm:gap-3">
             {/* QR Card Spec Inspection Button */}
             <button
+              id="qr-inspect-btn"
               onClick={() => setIsQRModalOpen(true)}
-              className="px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 bg-slate-900 text-slate-300 hover:text-white text-xs font-medium transition-all flex items-center gap-1.5"
+              className="px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 bg-slate-900 text-slate-300 hover:text-white text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer"
               title="Inspect Section 2A QR Print Specification"
             >
               <svg className="h-3.5 w-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
               </svg>
-              <span className="hidden sm:inline">QR Spec</span>
+              <span className="hidden sm:inline">Pocket Card QR</span>
             </button>
 
             {/* Chatbot Trigger */}
             <button
+              id="open-chat-btn"
               onClick={() => setIsChatOpen(true)}
-              className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md shadow-blue-600/20 transition-all flex items-center gap-1.5"
+              className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md shadow-blue-600/20 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
                 <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
@@ -77,8 +88,8 @@ export default function Home() {
 
       {/* Main Content Flow */}
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12 space-y-16 sm:space-y-24">
-        {/* Hero Section */}
-        <section className="text-center space-y-4 max-w-3xl mx-auto">
+        {/* 1. Hero / Introduction Section */}
+        <section id="hero-section" className="text-center space-y-4 max-w-3xl mx-auto">
           {/* Tagline Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-medium text-blue-400">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-ping" />
@@ -94,7 +105,7 @@ export default function Home() {
           </p>
         </section>
 
-        {/* 3. Runtime Avatar & Synchronized Captions (Section 3 & 3C) */}
+        {/* 2. Runtime Avatar & Synchronized Captions (Section 3 & 3C) */}
         <section id="avatar-section" className="space-y-4">
           <div className="text-center space-y-1">
             <span className="text-[11px] font-mono uppercase tracking-widest text-blue-400 font-semibold">
@@ -114,8 +125,8 @@ export default function Home() {
           />
         </section>
 
-        {/* 5. Benefits / Pros Section */}
-        <section className="space-y-8">
+        {/* 3. Benefits / Pros Section */}
+        <section id="pros-section" className="space-y-8">
           <div className="text-center space-y-2 max-w-xl mx-auto">
             <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 font-semibold">
               Core Value Proposition
@@ -132,7 +143,8 @@ export default function Home() {
             {DUMMY_BENEFITS.map((benefit) => (
               <div
                 key={benefit.id}
-                className="p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700/80 transition-all hover:bg-slate-900 flex flex-col justify-between group"
+                id={`card-${benefit.id}`}
+                className="p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700/80 transition-all hover:bg-slate-900 flex flex-col justify-between group shadow-sm"
               >
                 <div className="space-y-3">
                   <div className="h-10 w-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -152,8 +164,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 7. Common Use Cases & Bottlenecks ("need usage visuals") */}
-        <section className="space-y-8">
+        {/* 4. Common Use Cases & Bottlenecks ("need usage visuals") */}
+        <section id="use-cases-section" className="space-y-8">
           <div className="text-center space-y-2 max-w-xl mx-auto">
             <span className="text-[11px] font-mono uppercase tracking-widest text-indigo-400 font-semibold">
               Practical Solutions
@@ -170,16 +182,26 @@ export default function Home() {
             {DUMMY_USE_CASES.map((uc) => (
               <div
                 key={uc.id}
-                className="rounded-xl bg-slate-900/70 border border-slate-800 overflow-hidden flex flex-col"
+                id={`usecase-${uc.id}`}
+                className="rounded-xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition-all overflow-hidden flex flex-col group shadow-lg"
               >
-                <div className="aspect-[16/9] bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950/40 p-4 flex flex-col items-center justify-center border-b border-slate-800 text-center">
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 mb-2">
-                    Visual Diagram Placeholder
-                  </span>
-                  <div className="h-10 w-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <div
+                  className="aspect-[16/10] bg-slate-950 border-b border-slate-800 relative cursor-pointer overflow-hidden"
+                  onClick={() => setActiveZoomImage({ src: uc.imageAssetId, caption: uc.title })}
+                  title="Click to zoom diagram"
+                >
+                  <Image
+                    src={uc.imageAssetId}
+                    alt={uc.title}
+                    width={600}
+                    height={360}
+                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+                  />
+                  <div className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/70 backdrop-blur-xs text-[10px] text-slate-300 flex items-center gap-1 opacity-80 group-hover:opacity-100">
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
                     </svg>
+                    Zoom
                   </div>
                 </div>
                 <div className="p-5 flex-1 flex flex-col justify-between">
@@ -197,37 +219,50 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 6. "Resemble Pictures" / Reference Visuals Section (Flagged for Confirmation) */}
-        <section className="space-y-6 p-6 rounded-2xl bg-slate-900/40 border border-dashed border-slate-800">
+        {/* 5. "Resemble Pictures" / Reference Visuals Section (Option A: Confirmed by Owner) */}
+        <section id="resemble-pictures-section" className="space-y-6 p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-semibold px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
-                  Section 0 Flagged Item
+                <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-semibold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                  Option A Confirmed
                 </span>
-                <span className="text-xs text-slate-400">Pending Owner Confirmation</span>
+                <span className="text-xs text-slate-400">Sample Marketing Work &amp; System Visuals</span>
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-white mt-1">
-                Reference / Portfolio Visuals (&quot;Resemble Pictures&quot;)
+                Portfolio &amp; Performance Reference Visuals
               </h2>
             </div>
             <p className="text-xs text-slate-400 max-w-sm">
-              Flagged in brief: Confirming whether these are sample marketing results visuals or reference photos for avatar training.
+              Illustrating verified systems: dashboards, creative matrixes, and attribution pipelines. (Client names omitted per policy).
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {DUMMY_REFERENCE_VISUALS.map((ref) => (
               <div
                 key={ref.id}
-                className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center space-y-2"
+                id={`refvisual-${ref.id}`}
+                className="p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition-all text-center space-y-2.5 group cursor-pointer"
+                onClick={() => setActiveZoomImage({ src: ref.imageAssetId, caption: ref.caption })}
+                title="Click to zoom reference visual"
               >
-                <div className="h-24 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600">
-                  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+                <div className="aspect-[16/10] rounded-lg bg-slate-900 border border-slate-800 overflow-hidden relative">
+                  <Image
+                    src={ref.imageAssetId}
+                    alt={ref.caption}
+                    width={600}
+                    height={360}
+                    className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300"
+                  />
+                  <div className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/70 backdrop-blur-xs text-[10px] text-slate-300 flex items-center gap-1 opacity-80 group-hover:opacity-100">
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                    </svg>
+                    Zoom
+                  </div>
                 </div>
-                <p className="text-[11px] text-slate-400 font-mono">
+                <p className="text-[11px] text-slate-300 font-mono line-clamp-2">
                   {ref.caption}
                 </p>
               </div>
@@ -235,8 +270,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 8. Call to Action Section */}
-        <section className="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-blue-950/40 via-slate-900 to-slate-900 border border-blue-900/30 text-center space-y-6">
+        {/* 6. Call to Action Section */}
+        <section id="cta-section" className="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-blue-950/40 via-slate-900 to-slate-900 border border-blue-900/30 text-center space-y-6">
           <div className="max-w-xl mx-auto space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
               Ready to Accelerate Your Customer Acquisition?
@@ -248,8 +283,9 @@ export default function Home() {
 
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <button
+              id="cta-chat-btn"
               onClick={() => setIsChatOpen(true)}
-              className="px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm shadow-xl shadow-blue-600/30 transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm shadow-xl shadow-blue-600/30 transition-all flex items-center gap-2 cursor-pointer"
             >
               <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                 <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
@@ -258,8 +294,9 @@ export default function Home() {
             </button>
 
             <button
+              id="cta-qr-btn"
               onClick={() => setIsQRModalOpen(true)}
-              className="px-5 py-3 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold border border-slate-700 transition-all flex items-center gap-2"
+              className="px-5 py-3 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
             >
               <svg className="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
@@ -270,8 +307,8 @@ export default function Home() {
         </section>
       </main>
 
-      {/* 9. Footer & DPDP Act 2023 Compliance */}
-      <footer className="border-t border-slate-800/80 bg-slate-950 py-8 px-4 sm:px-6">
+      {/* 7. Footer & DPDP Act 2023 Compliance */}
+      <footer id="site-footer" className="border-t border-slate-800/80 bg-slate-950 py-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div>
             <p>{DUMMY_SITE_CONFIG.footerText}</p>
@@ -282,7 +319,7 @@ export default function Home() {
 
           <div className="flex items-center gap-4 text-slate-400">
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800">
-              Vercel Deployment Baseline
+              Vercel Deployment Target
             </span>
           </div>
         </div>
@@ -301,6 +338,36 @@ export default function Home() {
         isOpen={isQRModalOpen}
         onClose={() => setIsQRModalOpen(false)}
       />
+
+      {/* Image Lightbox / Zoom Modal */}
+      {activeZoomImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 cursor-pointer"
+          onClick={() => setActiveZoomImage(null)}
+        >
+          <div className="relative max-w-4xl w-full bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+              <span className="text-xs font-mono text-slate-300 font-semibold">{activeZoomImage.caption}</span>
+              <button
+                onClick={() => setActiveZoomImage(null)}
+                className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white"
+                aria-label="Close Preview"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="aspect-[16/10] w-full rounded-lg overflow-hidden bg-slate-950 border border-slate-800">
+              <Image
+                src={activeZoomImage.src}
+                alt={activeZoomImage.caption}
+                width={1000}
+                height={600}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

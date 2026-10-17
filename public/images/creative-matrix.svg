@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cmBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="360" rx="16" fill="url(#cmBg)" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Matrix Grid of Ad Variations -->
+  <text x="30" y="45" fill="#f8fafc" font-family="sans-serif" font-size="14" font-weight="bold">AI Ad Creative Sprint Matrix (5 Hooks × 3 Formats)</text>
+  <text x="30" y="65" fill="#94a3b8" font-family="sans-serif" font-size="10">Rapid multi-variant creative iteration pipeline</text>
+
+  <!-- Cell 1: UGC Video Angle A -->
+  <rect x="30" y="85" width="160" height="95" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="42" y="98" width="55" height="18" rx="4" fill="#059669" />
+  <text x="69" y="111" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">ROAS 4.6x</text>
+  <text x="42" y="135" fill="#f1f5f9" font-family="sans-serif" font-size="10" font-weight="bold">Problem-Agitate Hook</text>
+  <text x="42" y="152" fill="#94a3b8" font-family="sans-serif" font-size="9">Dynamic UGC + Caption</text>
+
+  <!-- Cell 2: Static Carousel Angle B -->
+  <rect x="210" y="85" width="160" height="95" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="222" y="98" width="55" height="18" rx="4" fill="#2563eb" />
+  <text x="249" y="111" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">ROAS 3.2x</text>
+  <text x="222" y="135" fill="#f1f5f9" font-family="sans-serif" font-size="10" font-weight="bold">Case Study Carousel</text>
+  <text x="222" y="152" fill="#94a3b8" font-family="sans-serif" font-size="9">Social Proof Breakdown</text>
+
+  <!-- Cell 3: Direct Comparison Angle C -->
+  <rect x="390" y="85" width="160" height="95" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="402" y="98" width="55" height="18" rx="4" fill="#059669" />
+  <text x="429" y="111" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">ROAS 4.1x</text>
+  <text x="402" y="135" fill="#f1f5f9" font-family="sans-serif" font-size="10" font-weight="bold">Feature Comparison</text>
+  <text x="402" y="152" fill="#94a3b8" font-family="sans-serif" font-size="9">Old Way vs AI System</text>
+
+  <!-- Row 2 -->
+  <rect x="30" y="195" width="160" height="95" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="42" y="208" width="55" height="18" rx="4" fill="#d97706" />
+  <text x="69" y="221" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Testing</text>
+  <text x="42" y="245" fill="#f1f5f9" font-family="sans-serif" font-size="10" font-weight="bold">Founder Story Reel</text>
+  <text x="42" y="262" fill="#94a3b8" font-family="sans-serif" font-size="9">Hinglish Code-Switch</text>
+
+  <rect x="210" y="195" width="160" height="95" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="222" y="208" width="55" height="18" rx="4" fill="#059669" />
+  <text x="249" y="221" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">ROAS 3.9x</text>
+  <text x="222" y="245" fill="#f1f5f9" font-family="sans-serif" font-size="10" font-weight="bold">Stat-Driven Graphic</text>
+  <text x="222" y="262" fill="#94a3b8" font-family="sans-serif" font-size="9">Clear Quantitative Angle</text>
+
+  <rect x="390" y="195" width="160" height="95" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="402" y="208" width="55" height="18" rx="4" fill="#64748b" />
+  <text x="429" y="221" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Paused</text>
+  <text x="402" y="245" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="bold">Broad Curiosity Ad</text>
+  <text x="402" y="262" fill="#64748b" font-family="sans-serif" font-size="9">Killed at 1.4x ROAS</text>
+
+  <!-- Title / Legend -->
+  <text x="30" y="335" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="600">[SAMPLE REFERENCE VISUAL: Ad Creative Testing &amp; Fatigue Prevention Framework]</text>
+</svg>

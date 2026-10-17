@@ -3,6 +3,25 @@
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
 This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
 
+## [Milestone 2] - 2026-10-17
+### Added
+- Created dedicated vector visual assets in `public/images/`:
+  - `logo.svg`: Branded modern monogram for header and preloader.
+  - `ad-fatigue.svg`: Use case visual illustrating CAC reduction and AI creative refresh.
+  - `funnel-leakage.svg`: Use case visual illustrating post-click drop-off diagnosis and CRO lift.
+  - `lead-automation.svg`: Use case visual illustrating AI inbound qualification and routing.
+  - `metric-dashboard.svg`: Reference visual (Option A) showing multi-channel growth analytics.
+  - `creative-matrix.svg`: Reference visual (Option A) showing multi-variant ad testing framework.
+  - `pipeline-map.svg`: Reference visual (Option A) showing end-to-end attribution lifecycle funnel.
+- Implemented Section 0 owner confirmations:
+  - Confirmed "Resemble pictures" as **Option A** (sample portfolio/marketing performance reference visuals; real client names omitted per policy).
+  - Maintained approved default for Preloader content ("AI Performance Marketing • Funnel Architecture • Growth Systems").
+  - Mapped common client bottlenecks into dedicated use-case visual cards.
+  - Enforced strict omission of unverified client claims and awards.
+- Added click-to-zoom diagram lightbox in `src/app/page.tsx` for high-resolution inspection of diagrams.
+- Assigned unique, descriptive IDs across all sections, interactive buttons, and cards for testability and SEO.
+- Verified Next.js production build (`npm run build`) and ESLint (`npm run lint`) pass with 0 errors.
+
 ## [Milestone 1] - 2026-10-17
 ### Added
 - Initialized Next.js 16+ project with TypeScript, App Router, React 19, and Tailwind CSS.

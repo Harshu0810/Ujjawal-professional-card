@@ -1,7 +1,7 @@
 import { SiteConfig, BenefitCard, UseCaseVisual, ReferenceVisual, AvatarConfig, CaptionTrack, ChatbotConfig } from '@/types/content';
 
 export const DUMMY_SITE_CONFIG: SiteConfig = {
-  logoAssetId: '/images/dummy-logo.svg',
+  logoAssetId: '/images/logo.svg',
   faviconAssetId: '/favicon.ico',
   brandColors: ['#0f172a', '#3b82f6', '#10b981'],
   fontChoice: 'Inter, system-ui, sans-serif',
@@ -13,7 +13,7 @@ export const DUMMY_SITE_CONFIG: SiteConfig = {
   introText: '[PLACEHOLDER: Hi, I am Ujjawal — an AI digital marketer combining performance advertising, conversion-driven funnels, and automated growth workflows to scale customer acquisition.]',
   aboutText: '[PLACEHOLDER: With a focus on measurable revenue impact, I partner with ambitious founders and marketing leaders to design and execute high-converting digital acquisition funnels.]',
   preloaderText: '[PLACEHOLDER: AI Performance Marketing • Funnel Architecture • Growth Systems]',
-  preloaderAssetId: '/images/preloader-badge.svg',
+  preloaderAssetId: '/images/logo.svg',
   preloaderDurationMs: 1800,
   footerText: '© 2026 [PLACEHOLDER: Ujjawal - AI Digital Marketer]. All rights reserved. [PLACEHOLDER DUMMY CONTENT]',
   privacyConsentText: 'Privacy Notice: We respect your privacy in accordance with DPDP Act 2023 principles. Visitor interaction data is used solely to respond to inquiries.',
@@ -66,21 +66,21 @@ export const DUMMY_USE_CASES: UseCaseVisual[] = [
     id: 'uc-1',
     title: '[PLACEHOLDER USE CASE: Breaking Stagnant Ad Fatigue]',
     description: '[PLACEHOLDER: Re-igniting customer acquisition when previous winning ads burn out and customer acquisition costs spike.]',
-    imageAssetId: '/images/dummy-ad-fatigue.svg',
+    imageAssetId: '/images/ad-fatigue.svg',
     order: 1
   },
   {
     id: 'uc-2',
     title: '[PLACEHOLDER USE CASE: Fixing Post-Click Lead Leakage]',
     description: '[PLACEHOLDER: Auditing high-traffic, low-converting landing pages to plug funnel drops and boost conversion rate.]',
-    imageAssetId: '/images/dummy-funnel-drop.svg',
+    imageAssetId: '/images/funnel-leakage.svg',
     order: 2
   },
   {
     id: 'uc-3',
     title: '[PLACEHOLDER USE CASE: Automated Inbound Qualification]',
     description: '[PLACEHOLDER: Integrating instant AI conversational lead qualification to prevent lost inquiries during off-hours.]',
-    imageAssetId: '/images/dummy-lead-auto.svg',
+    imageAssetId: '/images/lead-automation.svg',
     order: 3
   }
 ];
@@ -88,20 +88,20 @@ export const DUMMY_USE_CASES: UseCaseVisual[] = [
 export const DUMMY_REFERENCE_VISUALS: ReferenceVisual[] = [
   {
     id: 'ref-1',
-    caption: '[PLACEHOLDER REFERENCE VISUAL: Sample Campaign Performance Dashboard - Pending Owner Approved Proof]',
-    imageAssetId: '/images/dummy-metric-1.svg',
+    caption: '[SAMPLE REFERENCE: Multi-Channel Growth Analytics Dashboard]',
+    imageAssetId: '/images/metric-dashboard.svg',
     order: 1
   },
   {
     id: 'ref-2',
-    caption: '[PLACEHOLDER REFERENCE VISUAL: Multi-Variant Ad Creative Matrix - Pending Owner Approved Proof]',
-    imageAssetId: '/images/dummy-metric-2.svg',
+    caption: '[SAMPLE REFERENCE: Ad Creative Testing & Fatigue Prevention Matrix]',
+    imageAssetId: '/images/creative-matrix.svg',
     order: 2
   },
   {
     id: 'ref-3',
-    caption: '[PLACEHOLDER REFERENCE VISUAL: Automated Lead Funnel Pipeline Map - Pending Owner Approved Proof]',
-    imageAssetId: '/images/dummy-metric-3.svg',
+    caption: '[SAMPLE REFERENCE: Inbound Attribution & Pipeline Funnel Engine]',
+    imageAssetId: '/images/pipeline-map.svg',
     order: 3
   }
 ];

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="#090d16" stroke="#1e293b" stroke-width="3"/>
+  <circle cx="100" cy="100" r="70" fill="none" stroke="url(#logoGrad)" stroke-width="4" stroke-dasharray="12 8" opacity="0.4" />
+  <path d="M70 65 L70 115 C70 135 85 145 100 145 C115 145 130 135 130 115 L130 65" fill="none" stroke="url(#logoGrad)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <circle cx="100" cy="88" r="8" fill="#38bdf8" />
+  <path d="M60 150 L140 150" stroke="#334155" stroke-width="3" stroke-linecap="round" />
+  <circle cx="130" cy="65" r="4" fill="#10b981" />
+</svg>

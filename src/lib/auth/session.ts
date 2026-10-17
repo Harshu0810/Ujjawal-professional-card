@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 import { cookies } from 'next/headers';
 
 const SESSION_COOKIE_NAME = 'admin_session';
-const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'default_dev_session_secret_change_in_production_12345';
+const SESSION_SECRET = process.env.SESSION_SECRET || process.env.ADMIN_SESSION_SECRET || 'default_dev_session_secret_change_in_production_12345';
 const SESSION_TTL_SECONDS = 86400; // 24 hours
 
 export interface SessionPayload {

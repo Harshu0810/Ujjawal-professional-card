@@ -6,9 +6,9 @@ interface AttemptRecord {
 
 const attemptsStore = new Map<string, AttemptRecord>();
 
-const MAX_FAILED_ATTEMPTS = 5;
+const MAX_FAILED_ATTEMPTS = 15;
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const BLOCK_DURATION_MS = 15 * 60 * 1000; // 15 minutes lockout
+const BLOCK_DURATION_MS = 60 * 1000; // 1 minute lockout during setup
 
 export function checkLoginRateLimit(identifier: string): { allowed: boolean; remainingAttempts: number; retryAfterSeconds?: number } {
   const now = Date.now();

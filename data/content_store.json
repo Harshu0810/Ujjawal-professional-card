@@ -572,5 +572,12 @@
       "publishedAt": "2026-10-17T16:10:17.728Z",
       "publishedBy": "system"
     }
+  ],
+  "adminUsers": [
+    {
+      "id": "admin-1",
+      "username": "ujjawal_admin",
+      "passwordHash": "413c571df8f5e4c510a3f1c74f9fbdd0:ed7bdad28fa563381d4d166149dd500775d98c12221a595473fcecd20686f8e75f83e70b9a8510387c777366a8a894f77e321b49f7fad12b5f69fcaf3a0dce14"
+    }
   ]
 }

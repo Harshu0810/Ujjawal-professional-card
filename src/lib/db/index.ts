@@ -64,8 +64,8 @@ const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'content_store.json');
 
 function getInitialDatabase(): DatabaseSchema {
-  const initialUsername = process.env.INITIAL_ADMIN_USERNAME || 'ujjawal_admin';
-  const initialPassword = process.env.INITIAL_ADMIN_PASSWORD || 'AdminPass2026!Secure';
+  const initialUsername = process.env.ADMIN_USERNAME || process.env.INITIAL_ADMIN_USERNAME || 'ujjawal_admin';
+  const initialPassword = process.env.ADMIN_PASSWORD || process.env.INITIAL_ADMIN_PASSWORD || 'AdminPass2026!Secure';
 
   const defaultKnowledgeDoc: KnowledgeDocument = {
     id: 'kb-default-v1',
@@ -140,7 +140,11 @@ function getInitialDatabase(): DatabaseSchema {
 export function readDatabase(): DatabaseSchema {
   try {
     if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
+      try {
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+      } catch {
+        // Ignored if read-only
+      }
     }
 
     if (!fs.existsSync(DB_FILE)) {
@@ -150,7 +154,15 @@ export function readDatabase(): DatabaseSchema {
     }
 
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
-    return JSON.parse(raw) as DatabaseSchema;
+    const parsed = JSON.parse(raw) as DatabaseSchema;
+
+    // Ensure adminUsers array is present and populated
+    if (!parsed.adminUsers || !Array.isArray(parsed.adminUsers) || parsed.adminUsers.length === 0) {
+      const initial = getInitialDatabase();
+      parsed.adminUsers = initial.adminUsers;
+    }
+
+    return parsed;
   } catch (err) {
     console.error('Error reading database, falling back to seed:', err);
     return getInitialDatabase();
@@ -158,13 +170,17 @@ export function readDatabase(): DatabaseSchema {
 }
 
 export function writeDatabase(data: DatabaseSchema): void {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
 
-  const tempFile = `${DB_FILE}.tmp.${Date.now()}`;
-  fs.writeFileSync(tempFile, JSON.stringify(data, null, 2), 'utf-8');
-  fs.renameSync(tempFile, DB_FILE);
+    const tempFile = `${DB_FILE}.tmp.${Date.now()}`;
+    fs.writeFileSync(tempFile, JSON.stringify(data, null, 2), 'utf-8');
+    fs.renameSync(tempFile, DB_FILE);
+  } catch (err) {
+    console.warn('Filesystem write not permitted (serverless lambda), continuing in-memory:', err);
+  }
 }
 
 // Helper query operations

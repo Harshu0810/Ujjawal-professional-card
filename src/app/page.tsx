@@ -208,7 +208,7 @@ export default function Home() {
                 <span className="text-xs text-slate-400">Pending Owner Confirmation</span>
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-white mt-1">
-                Reference / Portfolio Visuals ("Resemble Pictures")
+                Reference / Portfolio Visuals (&quot;Resemble Pictures&quot;)
               </h2>
             </div>
             <p className="text-xs text-slate-400 max-w-sm">

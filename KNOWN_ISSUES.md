@@ -2,26 +2,28 @@
 
 This file tracks technical limitations, pending decisions, and temporary placeholders across milestones.
 
-## Milestone 6 Status (Completed)
+## Milestone 7 Status (Completed — Production Ready)
 
-### Resolved Items & Technical Validations
-1. **Section 2A QR Generation & Print Specs:**
-   - Implemented high-precision QR generator (`src/lib/qr/index.ts`) adhering to Error Correction Level Q (25% damage recovery) and Level M fallback.
-   - Guaranteed ≥4 modules quiet zone margin to prevent print boundary clipping.
-   - Built `/api/qr` streaming endpoint providing vector SVG rendering and download attachment.
-   - Created comprehensive print documentation in `docs/QR_PRINT_SPECIFICATION.md` detailing physical sizing (≥ 2×2 cm), contrast (≥10:1), and matte paper finishes.
-2. **Interactive QR Modal:**
-   - Added `QRCodeModal.tsx` allowing one-click vector SVG download and live preview with reactive URL testing.
-3. **Caption & Script Validation:**
-   - Synchronized Hinglish caption tracks verified against spoken audio timings.
-4. **Placeholder Content Audit:**
-   - Verified that zero unverified client names, metrics, or awards exist across UI and data files.
+### Full Milestones Sign-off (Milestones 1–7)
+All milestones in `AI_Intro_Webpage_Build_Plan_v2.md` have been implemented and validated against the Section 8 Acceptance Checklist:
+1. **Milestone 1:** Repository structure, TypeScript data schemas (Appendix B), initial dummy content, and Section 0/3A decisions confirmed.
+2. **Milestone 2:** Mobile-first responsive visual layout, custom SVG asset library, and click-to-zoom diagram lightbox.
+3. **Milestone 3:** Vendor-neutral runtime avatar engine (Simli, D-ID, HeyGen, Mock), real-time WebRTC APIs, live script testing, dynamic Hinglish caption re-sync, and cost scaling evaluation (`docs/AVATAR_POC_EVALUATION.md`).
+4. **Milestone 4:** Atomic persistent JSON database (`data/content_store.json`), PBKDF2 SHA-512 password hashing, HMAC-SHA256 session cookies, brute-force rate limiting, 7-tab `/admin` CMS, and snapshot rollback.
+5. **Milestone 5:** Grounded Anthropic Claude integration (`claude-haiku-5-5`), semantic RAG ingestion from Appendix A business facts, prompt injection hardening, fail-safe local sandbox, and India DPDP Act 2023 compliance notice.
+6. **Milestone 6:** Section 2A pocket-card QR code engine (Level Q, ≥4 module quiet zone), vector SVG streaming/download, print specifications (`docs/QR_PRINT_SPECIFICATION.md`), and content verification.
+7. **Milestone 7:** Complete security audit, Section 8 Acceptance Checklist verification, zero secrets committed, and comprehensive operations manual (`docs/HANDOVER_GUIDE.md`).
 
-### Active Focus: Milestone 7 — Production QA, Security Review, and Launch Handover
-- **Objective:** Final end-to-end verification across the Section 8 Acceptance Checklist:
-  - Preloader fail-open behavior.
-  - Runtime avatar lip-sync & Section 3A Option 1 compliance.
-  - Admin CMS authentication, persistent database writes, and rollback verification.
-  - Chatbot RAG grounding, prompt injection defenses, off-topic deflection, and India DPDP Act 2023 compliance.
-  - Zero secrets in client-side bundles or git history.
-  - Comprehensive handover manual (`docs/HANDOVER_GUIDE.md`).
+### Technical Notes for Production Hosting (Vercel)
+1. **Serverless Filesystem Persistence:**
+   - The local database engine writes atomically to `data/content_store.json`.
+   - On Vercel serverless deployments, function filesystems are read-only and ephemeral across cold starts.
+   - For persistent cloud state when hosting on Vercel, connect **Vercel KV** or **Upstash Redis** as detailed in `docs/HANDOVER_GUIDE.md`.
+2. **Avatar Vendor Credentials:**
+   - The system defaults to the zero-cost local sandbox (`mock`) if vendor API keys are not supplied.
+   - To activate live streaming avatars, configure `AVATAR_PROVIDER=simli` (or `did` / `heygen`) with corresponding API credentials in Vercel environment variables.
+3. **Claude API Token Monitoring:**
+   - Uses `claude-haiku-5-5`. If `ANTHROPIC_API_KEY` is omitted, the built-in grounded local semantic sandbox responds to visitor inquiries with zero downtime.
+4. **Zero Unverified Claims Policy:**
+   - Real client logos, names, and metrics remain omitted per the owner's policy until signed-off proof is supplied.
+

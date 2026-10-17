@@ -89,18 +89,29 @@ Production introductory website for **Ujjawal**, AI Digital Marketer, built from
 ## 5. Milestone Sequencing (Section 7)
 
 - [x] **Milestone 1:** Repository, baseline, and content brief questions (Section 0 & 3A).
-- [ ] **Milestone 2:** Visual design, responsive layout polish, and QR code verification.
-- [ ] **Milestone 3:** Avatar technical proof of concept, Hinglish validation, and per-minute cost confirmation.
-- [ ] **Milestone 4:** Persistent database schema implementation and authenticated `/admin` panel.
-- [ ] **Milestone 5:** Anthropic Claude API chatbot with RAG ingestion and DPDP Act 2023 compliance.
-- [ ] **Milestone 6:** Final owner content handoff, script/captions synchronization, and print QR verification.
-- [ ] **Milestone 7:** Security audit, end-to-end QA checklist, and production deployment handoff.
+- [x] **Milestone 2:** Visual design, responsive layout polish, vector asset suite, and lightbox.
+- [x] **Milestone 3:** Avatar technical proof of concept (Simli, D-ID, HeyGen), Hinglish sync, and per-minute cost confirmation.
+- [x] **Milestone 4:** Persistent database schema implementation, atomic writes, version snapshots, and authenticated `/admin` panel.
+- [x] **Milestone 5:** Anthropic Claude API chatbot (`claude-haiku-5-5`) with semantic RAG ingestion and DPDP Act 2023 compliance.
+- [x] **Milestone 6:** Final owner content handoff, script/captions synchronization, and print QR verification.
+- [x] **Milestone 7:** Security audit, end-to-end Section 8 QA checklist, and production deployment handoff.
 
 ---
 
-## 6. Privacy & Legal Notice
+## 6. Documentation & Guides
+
+- [Production Launch & Handover Guide](file:///d:/ujjawal_intro/docs/HANDOVER_GUIDE.md): Vercel setup, credentials rotation, database persistence, and CMS manual.
+- [Avatar POC Technical & Cost Evaluation](file:///d:/ujjawal_intro/docs/AVATAR_POC_EVALUATION.md): Per-minute rate analysis across Simli, D-ID, and HeyGen.
+- [QR Print Specification Guide](file:///d:/ujjawal_intro/docs/QR_PRINT_SPECIFICATION.md): Pocket-card print guidelines (Level Q, quiet zone, matte card stock).
+- [Changelog](file:///d:/ujjawal_intro/CHANGELOG.md): Complete chronological record of changes across milestones.
+- [Known Issues & Limitations](file:///d:/ujjawal_intro/KNOWN_ISSUES.md): Active technical notes and architectural decisions.
+
+---
+
+## 7. Privacy & Legal Notice
 
 Complies with principles of the **India Digital Personal Data Protection (DPDP) Act 2023**:
 - Clear, visible notice before conversational lead capture.
 - Purpose limitation: data provided is used exclusively to answer inquiries.
 - AI disclosure: the chatbot explicitly identifies as an automated AI assistant.
+

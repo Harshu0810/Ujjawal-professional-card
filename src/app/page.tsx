@@ -71,7 +71,7 @@ export default function Home() {
     'https://instagram.com/ujjawal.growth';
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white transition-colors duration-300 antialiased">
+    <div className="min-h-screen bg-[var(--neu-surface)] text-slate-800 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white transition-colors duration-300 antialiased">
       {/* 1. Scroll Progress Bar */}
       <ScrollProgressBar />
 
@@ -80,15 +80,15 @@ export default function Home() {
         <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-blue-500 animate-pulse" />
       )}
 
-      {/* 3. Slim Navigation Header */}
+      {/* 3. Slim Navigation Header (Neumorphic) */}
       <header
         id="site-header"
-        className="sticky top-0 z-40 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md py-2.5 transition-colors"
+        className="sticky top-0 z-40 bg-[var(--neu-surface)]/90 backdrop-blur-md py-3 transition-colors"
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           {/* Minimized Brand Identity */}
-          <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl neu-raised-sm flex items-center justify-center p-1.5">
               <Image
                 src={siteConfig.logoAssetId}
                 alt="Logo"
@@ -99,9 +99,9 @@ export default function Home() {
               />
             </div>
             <div>
-              <span className="font-bold text-sm text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5">
+              <span className="font-bold text-sm text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
                 Ujjawal
-                <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 font-semibold">
+                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full neu-raised-xs text-blue-600 dark:text-blue-400 font-semibold">
                   AI Marketer
                 </span>
               </span>
@@ -111,13 +111,13 @@ export default function Home() {
           {/* Contact Links & Theme Toggle */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Direct Contact Icons (v3: WhatsApp, LinkedIn, Instagram, Book Call) */}
-            <div className="flex items-center gap-1 sm:gap-1.5">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <a
                 id="header-whatsapp-btn"
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 transition-all cursor-pointer flex items-center gap-1 text-xs font-semibold"
+                className="p-2 sm:px-3 sm:py-1.5 rounded-xl neu-button text-emerald-600 dark:text-emerald-400 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-semibold"
                 title="WhatsApp Direct"
               >
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -131,7 +131,7 @@ export default function Home() {
                 href={bookingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/20 transition-all cursor-pointer flex items-center gap-1 text-xs font-semibold"
+                className="p-2 sm:px-3 sm:py-1.5 rounded-xl neu-button text-blue-600 dark:text-blue-400 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-semibold"
                 title="Book 20-Min Call"
               >
                 <svg className="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24">
@@ -145,7 +145,7 @@ export default function Home() {
                 href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-all cursor-pointer"
+                className="p-2 rounded-xl neu-button text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all cursor-pointer"
                 title="LinkedIn"
                 aria-label="LinkedIn Profile"
               >
@@ -159,7 +159,7 @@ export default function Home() {
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-all cursor-pointer"
+                className="p-2 rounded-xl neu-button text-slate-700 dark:text-slate-300 hover:text-pink-600 dark:hover:text-pink-400 transition-all cursor-pointer"
                 title="Instagram"
                 aria-label="Instagram Profile"
               >
@@ -176,7 +176,7 @@ export default function Home() {
       </header>
 
       {/* 4. Core Public Layout: Pinned Avatar (Top) + Full-Screen Chatbot (Center) */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 flex flex-col items-center">
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 space-y-8 flex flex-col items-center">
         {/* Pinned Avatar Player with Hinglish Synchronized Captions */}
         <section id="avatar-section" className="w-full max-w-xl mx-auto">
           <AvatarPlayer
@@ -186,21 +186,23 @@ export default function Home() {
           />
         </section>
 
-        {/* Full-Screen In-Page Chat Interface (v3 Pivot Centerpiece) */}
+        {/* Full-Screen In-Page Chat Interface (v3 Pivot Centerpiece / v4 Neumorphism & Session Popup) */}
         <section id="chat-section" className="w-full">
           <FullScreenChat
             config={chatbotConfig}
             whatsappUrl={whatsappUrl}
             bookingUrl={bookingUrl}
+            contactLinks={siteConfig.contactLinks}
+            socialLinks={siteConfig.socialLinks}
           />
         </section>
       </main>
 
-      {/* 5. Minimal Footer with DPDP Compliance & Discrete Admin Link */}
-      <footer id="site-footer" className="border-t border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-slate-950/60 py-4 px-4 sm:px-6 transition-colors">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+      {/* 5. Minimal Neumorphic Footer */}
+      <footer id="site-footer" className="max-w-5xl mx-auto w-full px-4 sm:px-6 pb-6 pt-2">
+        <div className="neu-inset-subtle rounded-2xl py-4 px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
           <div className="text-center sm:text-left">
-            <p className="font-medium text-slate-700 dark:text-slate-300">
+            <p className="font-semibold text-slate-700 dark:text-slate-300">
               © 2026 Ujjawal • AI Digital Marketer
             </p>
             <p className="text-[10px] text-slate-400 dark:text-slate-500">
@@ -211,11 +213,11 @@ export default function Home() {
           <div className="flex items-center gap-4 text-[11px]">
             <Link
               href="/admin"
-              className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+              className="neu-button px-3 py-1 rounded-xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
             >
               🔒 Admin
             </Link>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <span className="text-[10px] font-mono px-2.5 py-1 rounded-xl neu-raised-xs">
               Vercel Deploy
             </span>
           </div>

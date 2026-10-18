@@ -29,6 +29,7 @@ export default function AdminPage() {
   const [captionTrack, setCaptionTrack] = useState<CaptionTrack | null>(null);
   const [knowledgeDoc, setKnowledgeDoc] = useState<KnowledgeDocument | null>(null);
   const [chatbotConfig, setChatbotConfig] = useState<ChatbotConfig | null>(null);
+  const [providerDiagnostic, setProviderDiagnostic] = useState<{ provider: string; model: string; timestamp: string } | null>(null);
   const [versions, setVersions] = useState<ContentVersion[]>([]);
 
   // Feedback notifications
@@ -40,6 +41,10 @@ export default function AdminPage() {
   const [currentPass, setCurrentPass] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
+
+  // AI Provider live testing state
+  const [testingProvider, setTestingProvider] = useState<string | null>(null);
+  const [testResult, setTestResult] = useState<{ provider: string; success: boolean; message: string } | null>(null);
 
   const loadContent = useCallback(async () => {
     try {
@@ -53,6 +58,9 @@ export default function AdminPage() {
         setKnowledgeDoc(draft.knowledgeDocument);
         setChatbotConfig(draft.chatbotConfig);
         setVersions(draft.versions || []);
+        if (data.providerDiagnostic) {
+          setProviderDiagnostic(data.providerDiagnostic);
+        }
       }
     } catch (err) {
       console.error('Failed to load content:', err);
@@ -117,6 +125,53 @@ export default function AdminPage() {
     await fetch('/api/admin/logout', { method: 'POST' });
     setIsAuthenticated(false);
     setSiteConfig(null);
+  };
+
+  const handleTestProvider = async (provider: 'claude' | 'gemini' | 'groq' | 'ollama') => {
+    if (!chatbotConfig) return;
+    setTestingProvider(provider);
+    setTestResult(null);
+
+    try {
+      let payload = {};
+      if (provider === 'claude') {
+        payload = { provider: 'claude', apiKey: chatbotConfig.anthropicApiKey, model: chatbotConfig.modelName };
+      } else if (provider === 'gemini') {
+        payload = { provider: 'gemini', apiKey: chatbotConfig.geminiApiKey, model: chatbotConfig.geminiModel };
+      } else if (provider === 'groq') {
+        payload = { provider: 'groq', apiKey: chatbotConfig.groqApiKey, model: chatbotConfig.groqModel };
+      } else if (provider === 'ollama') {
+        payload = { provider: 'ollama', baseUrl: chatbotConfig.ollamaBaseUrl, model: chatbotConfig.ollamaModel };
+      }
+
+      const res = await fetch('/api/admin/test-llm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTestResult({
+          provider,
+          success: true,
+          message: `Connected (${data.latencyMs}ms)! Response: "${data.reply}" [${data.model}]`
+        });
+      } else {
+        setTestResult({
+          provider,
+          success: false,
+          message: data.error || 'Connection failed'
+        });
+      }
+    } catch (err: unknown) {
+      setTestResult({
+        provider,
+        success: false,
+        message: err instanceof Error ? err.message : 'Network test error'
+      });
+    } finally {
+      setTestingProvider(null);
+    }
   };
 
   const handleSaveDraft = async () => {
@@ -582,9 +637,215 @@ export default function AdminPage() {
           {/* TAB 3: CHATBOT & RAG (v3 Extended) */}
           {activeTab === 'chatbot' && chatbotConfig && knowledgeDoc && (
             <div className="space-y-4">
-              <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">
-                Chatbot &amp; Claude Intelligence (v3 Section 2)
-              </h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-2 gap-2">
+                <h2 className="text-base font-bold text-white">
+                  Chatbot &amp; Multi-Provider Intelligence (v4 Section 2)
+                </h2>
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="text-slate-400">Last response via:</span>
+                  <span className="font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-blue-400">
+                    {providerDiagnostic
+                      ? `${providerDiagnostic.provider} (${providerDiagnostic.model})`
+                      : 'No queries served yet this session'}
+                  </span>
+                </div>
+              </div>
+
+              {/* AI FALLBACK PROVIDERS & LOCAL LLM CONFIGURATION */}
+              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-slate-800 gap-2">
+                  <div>
+                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                      <span>⚡ AI Fallback Providers &amp; Local LLM Configuration</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        Admin Priority
+                      </span>
+                    </h3>
+                    <p className="text-[11px] text-slate-400">
+                      Keys entered here override environment variables. System cascades: Claude → Gemini → Groq → Ollama → Local Sandbox.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Test Result Alert */}
+                {testResult && (
+                  <div
+                    className={`p-3 rounded-lg text-xs font-mono border flex items-center justify-between ${
+                      testResult.success
+                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                        : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+                    }`}
+                  >
+                    <span>{testResult.message}</span>
+                    <button
+                      type="button"
+                      onClick={() => setTestResult(null)}
+                      className="text-xs text-slate-400 hover:text-white cursor-pointer px-1.5"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* 1. Anthropic Claude (Primary) */}
+                  <div className="p-3.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-amber-400" />
+                        1. Anthropic Claude (Primary)
+                      </span>
+                      <button
+                        type="button"
+                        disabled={testingProvider === 'claude'}
+                        onClick={() => handleTestProvider('claude')}
+                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 font-semibold cursor-pointer disabled:opacity-50"
+                      >
+                        {testingProvider === 'claude' ? 'Testing...' : 'Test Claude'}
+                      </button>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Claude API Key (sk-ant-...)</label>
+                      <input
+                        type="password"
+                        value={chatbotConfig.anthropicApiKey || ''}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, anthropicApiKey: e.target.value })}
+                        placeholder="sk-ant-api03-..."
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Model Name</label>
+                      <input
+                        type="text"
+                        value={chatbotConfig.modelName || 'claude-haiku-5-5'}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, modelName: e.target.value })}
+                        placeholder="claude-haiku-5-5"
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 2. Google Gemini (Fallback 1) */}
+                  <div className="p-3.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-blue-300 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-blue-400" />
+                        2. Google Gemini (First Fallback)
+                      </span>
+                      <button
+                        type="button"
+                        disabled={testingProvider === 'gemini'}
+                        onClick={() => handleTestProvider('gemini')}
+                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 font-semibold cursor-pointer disabled:opacity-50"
+                      >
+                        {testingProvider === 'gemini' ? 'Testing...' : 'Test Gemini'}
+                      </button>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Gemini API Key (AI Studio)</label>
+                      <input
+                        type="password"
+                        value={chatbotConfig.geminiApiKey || ''}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, geminiApiKey: e.target.value })}
+                        placeholder="AIzaSy..."
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Model Name</label>
+                      <input
+                        type="text"
+                        value={chatbotConfig.geminiModel || 'gemini-2.5-flash'}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, geminiModel: e.target.value })}
+                        placeholder="gemini-2.5-flash"
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 3. Groq (Fallback 2) */}
+                  <div className="p-3.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-orange-300 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-orange-400" />
+                        3. Groq Fast Inference (Second Fallback)
+                      </span>
+                      <button
+                        type="button"
+                        disabled={testingProvider === 'groq'}
+                        onClick={() => handleTestProvider('groq')}
+                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 font-semibold cursor-pointer disabled:opacity-50"
+                      >
+                        {testingProvider === 'groq' ? 'Testing...' : 'Test Groq'}
+                      </button>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Groq API Key (gsk_...)</label>
+                      <input
+                        type="password"
+                        value={chatbotConfig.groqApiKey || ''}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, groqApiKey: e.target.value })}
+                        placeholder="gsk_..."
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Model Name</label>
+                      <input
+                        type="text"
+                        value={chatbotConfig.groqModel || 'llama-3.3-70b-versatile'}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, groqModel: e.target.value })}
+                        placeholder="llama-3.3-70b-versatile"
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 4. Local LLM / Ollama via ngrok Tunnel (Fallback 3 / Local Hosting) */}
+                  <div className="p-3.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                        4. Local LLM via Ollama &amp; ngrok Tunnel
+                      </span>
+                      <button
+                        type="button"
+                        disabled={testingProvider === 'ollama'}
+                        onClick={() => handleTestProvider('ollama')}
+                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 font-semibold cursor-pointer disabled:opacity-50"
+                      >
+                        {testingProvider === 'ollama' ? 'Testing...' : 'Test Ollama / ngrok'}
+                      </button>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">
+                        Ollama ngrok Tunnel Live URL / Serve Address
+                      </label>
+                      <input
+                        type="text"
+                        value={chatbotConfig.ollamaBaseUrl || ''}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, ollamaBaseUrl: e.target.value })}
+                        placeholder="https://xxxx-xx-xx.ngrok-free.app or http://localhost:11434"
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                      <span className="text-[10px] text-slate-500 block mt-1">
+                        Run: <code className="text-emerald-400">ollama serve</code> &amp; <code className="text-emerald-400">ngrok http 11434</code>
+                      </span>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Ollama Model Name</label>
+                      <input
+                        type="text"
+                        value={chatbotConfig.ollamaModel || 'llama3.2'}
+                        onChange={(e) => setChatbotConfig({ ...chatbotConfig, ollamaModel: e.target.value })}
+                        placeholder="llama3.2 (or mistral, deepseek-r1:8b)"
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>

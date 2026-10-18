@@ -2,7 +2,26 @@
 
 This file tracks technical limitations, pending decisions, and temporary placeholders across milestones.
 
-## Milestone 8 Status (v3 Owner-Directed Pivot — Live & Production Ready)
+## v4 Status (Live QA Bug Fixes, Multi-Provider AI Fallback, Session Popup & Neumorphic Redesign)
+
+### Resolutions & Enhancements Completed
+1. **RAG Scaffolding Leakage Resolved:**
+   - Fixed bug where off-topic questions (e.g. general trivia about the ocean) received internal document headers.
+   - Zero-score queries now bypass retrieval and return empty chunk arrays.
+   - Retrieved chunks undergo sanitization stripping bracketed placeholders, status tags, and appendix headers.
+2. **Multi-Provider AI Resilience:**
+   - Multi-provider fallback cascade: Claude (`ANTHROPIC_API_KEY`) → Gemini (`GEMINI_API_KEY`) → Groq (`GROQ_API_KEY`) → Grounded Local Sandbox.
+   - Server-side diagnostic tracking records the active provider per request and surfaces it in the `/admin` CMS dashboard.
+3. **Session-Exhausted Popup:**
+   - Dismissible modal at 3/3 questions with dynamic WhatsApp, Book Call, LinkedIn, and Instagram buttons.
+   - Non-blocking dismiss action lets visitors freely review their conversation transcript.
+4. **Visual Neumorphic Redesign:**
+   - Implemented soft UI paired shadows across dark (`#2b2f38`) and light (`#edf0f5`) modes.
+   - High-contrast text and icons maintained for accessibility compliance.
+5. **Brand Identity:**
+   - Removed "Powered by Claude" from chat header.
+
+## Milestone 8 Status (v3 Owner-Directed Pivot — Baseline)
 
 ### v3 Pivot Scope Summary
 In accordance with `AI_Intro_Webpage_Build_Plan_v3_Pivot.md`, all legacy marketing sections (headline, pros cards, use-case cards, reference visual zoom, static audit form, closing CTA block) have been stripped from the public landing page. The website is centered on:

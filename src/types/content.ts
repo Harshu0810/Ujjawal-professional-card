@@ -119,6 +119,14 @@ export interface ChatbotConfig {
   rateLimitPerSessionPerMinute: number;
   maxSessionExchanges?: number; // default: 3 per v3 Section 2B
   allowGeneralQuestions?: boolean; // default: true per v3 Section 2A
+  // v4 Extended: Multi-Provider API Keys & Local LLM (Ollama / ngrok) Endpoints
+  anthropicApiKey?: string;
+  geminiApiKey?: string;
+  geminiModel?: string;
+  groqApiKey?: string;
+  groqModel?: string;
+  ollamaBaseUrl?: string; // Live ngrok tunnel URL or local endpoint (e.g. https://xyz.ngrok-free.app or http://localhost:11434)
+  ollamaModel?: string;   // e.g. 'llama3.2', 'mistral', 'deepseek-r1:8b', 'qwen2.5'
 }
 
 export interface AdminUser {

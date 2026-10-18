@@ -1,7 +1,38 @@
 # Changelog
 
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
-This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
+This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v4.md`.
+
+## [v4 Build - Live QA Bug Fixes, Multi-Provider Fallback, Session Popup & Neumorphism] - 2026-10-18
+### Fixed
+- **🔴 RAG Scaffolding Leakage Bug (v4 Section 1):**
+  - Resolved bug where off-topic queries (e.g. "Tell me a one-line fun fact about the ocean") received fallback document header chunks containing `[DRAFT / DUMMY PLACEHOLDER]` text.
+  - Updated `src/lib/rag/index.ts` so zero-score queries return an empty chunk array `[]` rather than fallback to internal document headers.
+  - Implemented comprehensive `sanitizeForRetrieval()` engine that strips placeholder brackets, status labels, internal appendix markers, and dangling key labels before chunks reach model context.
+  - Added anti-leakage instruction to system prompt (`src/lib/chatbot/prompt.ts`) and dynamically omitted business context block when empty.
+
+### Added
+- **Multi-Provider AI Fallback Engine (`src/lib/chatbot/claude.ts`):**
+  - Priority chain: **Claude** (`ANTHROPIC_API_KEY`) → **Google Gemini** (`GEMINI_API_KEY`, `gemini-2.5-flash`) → **Groq** (`GROQ_API_KEY`, `llama-3.3-70b-versatile`) → **Grounded Local Sandbox**.
+  - Server-side failure recovery: If Claude API key is absent or errors, request seamlessly cascades to Gemini, then Groq, with no user disruption.
+  - Added read-only provider diagnostic line in `🤖 Chatbot & RAG` admin CMS tab (`src/app/admin/page.tsx`) displaying which provider answered the last query (`Claude`, `Gemini (fallback)`, `Groq (fallback)`, or `Local`).
+- **Session-Exhausted Popup Modal (`src/components/FullScreenChat.tsx`):**
+  - Triggers exactly when quota reaches 3/3 questions.
+  - Dismissible popup modal informing visitor that preview has ended, with dynamic WhatsApp, Book Call, LinkedIn, and Instagram buttons pulled from `siteConfig`.
+  - Non-blocking: Includes close button and "Keep reading conversation transcript" control so visitor can freely review prior chat.
+  - Persistent inline banner preserved in chat thread as secondary reminder.
+- **Neumorphism Soft UI Redesign (`src/app/globals.css` & components):**
+  - Applied soft UI treatment across both Light Mode (base `#edf0f5`) and Dark Mode (base `#2b2f38`).
+  - Implemented paired soft shadows for extruded elements (`.neu-raised`, `.neu-raised-sm`), pressed input fields (`.neu-inset`), and interactive buttons (`.neu-button`, `.neu-accent-blue`, `.neu-accent-emerald`).
+  - Redesigned Avatar Player, Full-Screen Chat, input fields, message bubbles, contact buttons, and ThemeToggle to neumorphic styling.
+  - Preserved accessible high-contrast text and icons throughout.
+
+### Changed
+- **Chat Header Wording (v4 Section 4):**
+  - Removed "Powered by Claude" text from header.
+  - Updated header to: `Ujjawal AI Growth Assistant •` with subtitle `Grounded in verified systems`.
+
+---
 
 ## [Milestone 8 - v3 Owner-Directed Pivot] - 2026-10-18
 ### Added

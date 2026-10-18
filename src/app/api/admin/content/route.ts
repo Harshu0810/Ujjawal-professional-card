@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentAdminSession } from '@/lib/auth/session';
 import { getDraftContent, getPublishedContent, saveDraftContent } from '@/lib/db';
+import { getLastProviderDiagnostic } from '@/lib/chatbot/claude';
 
 export async function GET() {
   const session = await getCurrentAdminSession();
@@ -10,7 +11,8 @@ export async function GET() {
 
   const draft = getDraftContent();
   const published = getPublishedContent();
-  return NextResponse.json({ draft, published });
+  const providerDiagnostic = getLastProviderDiagnostic();
+  return NextResponse.json({ draft, published, providerDiagnostic });
 }
 
 export async function POST(req: NextRequest) {

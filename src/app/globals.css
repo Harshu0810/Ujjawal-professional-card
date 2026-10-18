@@ -2,14 +2,29 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* 
+ * v4 Neumorphic Soft UI Design System (Section 5)
+ * Light Base: #edf0f5 | Dark Base: #2b2f38
+ * Paired soft shadows (light highlight + dark shade) for smooth extrusion
+ */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #edf0f5;
+  --foreground: #1e293b;
+  --neu-surface: #edf0f5;
+  --neu-surface-subtle: #e5e9f0;
+  --neu-shadow-dark: #cad1dc;
+  --neu-shadow-light: #ffffff;
+  --neu-border-subtle: rgba(202, 209, 220, 0.4);
 }
 
 .dark {
-  --background: #020617;
-  --foreground: #f8fafc;
+  --background: #2b2f38;
+  --foreground: #f1f5f9;
+  --neu-surface: #2b2f38;
+  --neu-surface-subtle: #24272f;
+  --neu-shadow-dark: #1e2127;
+  --neu-shadow-light: #383d49;
+  --neu-border-subtle: rgba(56, 61, 73, 0.35);
 }
 
 @theme inline {
@@ -23,7 +38,109 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ─── Neumorphic Utility Tokens (v4 Section 5) ─── */
+
+/* Soft Raised Card / Container */
+.neu-raised {
+  background-color: var(--neu-surface);
+  box-shadow: 8px 8px 20px var(--neu-shadow-dark), -8px -8px 20px var(--neu-shadow-light);
+}
+
+/* Small Raised Component (Badges, Pills, Floating Docks) */
+.neu-raised-sm {
+  background-color: var(--neu-surface);
+  box-shadow: 4px 4px 10px var(--neu-shadow-dark), -4px -4px 10px var(--neu-shadow-light);
+}
+
+.neu-raised-xs {
+  background-color: var(--neu-surface);
+  box-shadow: 2px 2px 6px var(--neu-shadow-dark), -2px -2px 6px var(--neu-shadow-light);
+}
+
+/* Pressed / Inset Element (Input Fields, Track Wells) */
+.neu-inset {
+  background-color: var(--neu-surface);
+  box-shadow: inset 3px 3px 8px var(--neu-shadow-dark), inset -3px -3px 8px var(--neu-shadow-light);
+}
+
+.neu-inset-subtle {
+  background-color: var(--neu-surface-subtle);
+  box-shadow: inset 2px 2px 6px var(--neu-shadow-dark), inset -2px -2px 6px var(--neu-shadow-light);
+}
+
+/* Neumorphic Interactive Button */
+.neu-button {
+  background-color: var(--neu-surface);
+  box-shadow: 4px 4px 10px var(--neu-shadow-dark), -4px -4px 10px var(--neu-shadow-light);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neu-button:hover:not(:disabled) {
+  box-shadow: 6px 6px 14px var(--neu-shadow-dark), -6px -6px 14px var(--neu-shadow-light);
+  transform: translateY(-1px);
+}
+
+.neu-button:active:not(:disabled), .neu-button.active {
+  box-shadow: inset 3px 3px 6px var(--neu-shadow-dark), inset -3px -3px 6px var(--neu-shadow-light);
+  transform: translateY(0);
+}
+
+/* Accent Call-To-Action Button with Neumorphic Drop */
+.neu-accent-blue {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 4px 4px 12px var(--neu-shadow-dark), -3px -3px 8px var(--neu-shadow-light);
+  color: #ffffff;
+  transition: all 0.15s ease;
+}
+
+.neu-accent-blue:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 6px 6px 16px var(--neu-shadow-dark), -4px -4px 10px var(--neu-shadow-light);
+  transform: translateY(-1px);
+}
+
+.neu-accent-blue:active:not(:disabled) {
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.35);
+  transform: translateY(0);
+}
+
+.neu-accent-emerald {
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 4px 4px 12px var(--neu-shadow-dark), -3px -3px 8px var(--neu-shadow-light);
+  color: #ffffff;
+  transition: all 0.15s ease;
+}
+
+.neu-accent-emerald:hover:not(:disabled) {
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 6px 6px 16px var(--neu-shadow-dark), -4px -4px 10px var(--neu-shadow-light);
+  transform: translateY(-1px);
+}
+
+.neu-accent-emerald:active:not(:disabled) {
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.35);
+  transform: translateY(0);
+}
+
+/* Chat Message Bubbles */
+.neu-bubble-assistant {
+  background-color: var(--neu-surface);
+  box-shadow: 4px 4px 12px var(--neu-shadow-dark), -4px -4px 12px var(--neu-shadow-light);
+}
+
+.neu-bubble-user {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  box-shadow: 4px 4px 12px var(--neu-shadow-dark), -2px -2px 8px var(--neu-shadow-light);
+  color: #ffffff;
+}
+
+.dark .neu-bubble-user {
+  background: linear-gradient(135deg, #1e40af, #2563eb);
+  box-shadow: 4px 4px 12px #181a20, -2px -2px 8px #3a404c;
+  color: #ffffff;
 }
 
 /* Smooth custom scrollbar */
@@ -34,31 +151,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #64748b;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
-}
-
-/* Shimmer animation for loading skeletons */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.animate-shimmer {
-  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-.dark .animate-shimmer {
-  background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.02) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+  background: #94a3b8;
 }

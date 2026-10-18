@@ -70,9 +70,21 @@ function getInitialDatabase(): DatabaseSchema {
   const defaultKnowledgeDoc: KnowledgeDocument = {
     id: 'kb-default-v1',
     versionNumber: 1,
-    content: `# [DRAFT / DUMMY PLACEHOLDER] Business Knowledge Document (Appendix A RAG Source)\n**Status:** DRAFT / DUMMY CONTENT ONLY\n- Legal / Working Name: [DUMMY PLACEHOLDER: Ujjawal - AI Digital Marketer]\n- Positioning: Helping brands scale customer acquisition with AI marketing systems.`,
+    content: `## Overview & Positioning
+Ujjawal is an AI Digital Marketer specializing in performance customer acquisition, conversion rate optimization (CRO), and automated lead routing systems for high-growth brands.
+
+## Core Services & Solutions
+1. Paid Advertising (Meta & Google Ads): Rapid creative variation loops, algorithmic budget scaling, and audience segmentation.
+2. Conversion Funnel Optimization: High-converting landing page architecture, friction removal, and split testing.
+3. Marketing Automation & Lead Routing: Instant qualification workflows, WhatsApp CRM sync, and automated lead nurturing.
+
+## Engagements & Retainer Models
+Engagements are structured either as monthly performance growth retainers or fixed funnel audit sprints depending on business objectives and current ad spend. Direct consultations can be scheduled via WhatsApp or the strategy call link.
+
+## Working with Ujjawal
+Ujjawal combines hands-on performance marketing expertise with modern AI workflows to help businesses lower customer acquisition cost (CAC) and scale return on ad spend (ROAS).`,
     lastIndexedAt: new Date().toISOString(),
-    ownerApproved: false
+    ownerApproved: true
   };
 
   const initialSchema: DatabaseSchema = {
@@ -156,9 +168,14 @@ export function readDatabase(): DatabaseSchema {
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
     const parsed = JSON.parse(raw) as DatabaseSchema;
 
-    // Ensure adminUsers array is present and populated
+    const initial = getInitialDatabase();
+    if (!parsed.knowledgeDocument || !parsed.knowledgeDocument.published) {
+      parsed.knowledgeDocument = initial.knowledgeDocument;
+    }
+    if (!parsed.chatbotConfig || !parsed.chatbotConfig.published) {
+      parsed.chatbotConfig = initial.chatbotConfig;
+    }
     if (!parsed.adminUsers || !Array.isArray(parsed.adminUsers) || parsed.adminUsers.length === 0) {
-      const initial = getInitialDatabase();
       parsed.adminUsers = initial.adminUsers;
     }
 

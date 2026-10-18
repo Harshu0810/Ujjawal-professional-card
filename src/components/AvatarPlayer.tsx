@@ -119,18 +119,18 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
   return (
     <div
       id="avatar-player-container"
-      className="relative w-full max-w-xl mx-auto rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 shadow-xl dark:shadow-2xl backdrop-blur-sm transition-all duration-300"
+      className="relative w-full max-w-xl mx-auto rounded-3xl overflow-hidden neu-raised transition-all duration-300"
     >
       {/* Admin-only Engine Selector & Rate Bar (v3: hidden from public page) */}
       {isAdmin && (
-        <div className="px-4 py-2 bg-slate-100 dark:bg-slate-950/90 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between text-xs gap-2">
+        <div className="px-4 py-2 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800/60 flex flex-wrap items-center justify-between text-xs gap-2">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono uppercase text-blue-600 dark:text-blue-400 font-bold">Engine:</span>
             <select
               id="avatar-engine-select"
               value={activeEngine}
               onChange={(e) => setActiveEngine(e.target.value)}
-              className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded px-2 py-0.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-blue-500"
+              className="bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded px-2 py-0.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-blue-500"
             >
               <option value="d-id">D-ID Agents (WebRTC)</option>
               <option value="simli">Simli (Ultra Low-Cost)</option>
@@ -146,16 +146,16 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
       )}
 
       {/* Visual Avatar Canvas / Frame */}
-      <div className="relative aspect-[4/3] sm:aspect-[16/10] bg-gradient-to-b from-slate-100 via-slate-200/50 to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 flex items-center justify-center overflow-hidden transition-colors">
+      <div className="relative aspect-[4/3] sm:aspect-[16/10] bg-gradient-to-b from-slate-200/40 via-transparent to-slate-200/30 dark:from-slate-900/40 dark:via-transparent dark:to-slate-900/50 flex items-center justify-center overflow-hidden transition-colors">
         {/* Animated Background Grid */}
         <div className="absolute inset-0 opacity-15 dark:opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]" />
 
         {/* Avatar Representation */}
         <div className="relative flex flex-col items-center justify-center p-6 text-center">
           <div className="relative mb-3">
-            <div className={`h-32 w-32 sm:h-40 sm:w-40 rounded-full border-2 ${
-              isPlaying ? 'border-emerald-500 shadow-xl shadow-emerald-500/25 ring-4 ring-emerald-500/10' : 'border-blue-500/50'
-            } bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden transition-all duration-300`}>
+            <div className={`h-32 w-32 sm:h-40 sm:w-40 rounded-full neu-raised-sm ${
+              isPlaying ? 'ring-4 ring-emerald-500/20' : ''
+            } flex items-center justify-center overflow-hidden transition-all duration-300`}>
               <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
                 <svg className="h-16 w-16 sm:h-20 sm:w-20 text-blue-500 dark:text-blue-400/80" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -174,18 +174,18 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
 
           <div className="space-y-1">
             {isAdmin ? (
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[11px] font-mono text-blue-600 dark:text-blue-400">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full neu-raised-xs text-[11px] font-mono text-blue-600 dark:text-blue-400">
                 <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
                 Runtime Adapter: {activeEngine.toUpperCase()} (M3 Validated)
               </div>
             ) : (
-              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold text-blue-600 dark:text-blue-400">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full neu-raised-xs text-xs font-semibold text-blue-600 dark:text-blue-400">
                 <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
                 Ujjawal • AI Digital Marketer
               </div>
             )}
             <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              Audio: <span className="font-semibold text-slate-700 dark:text-slate-200">{isMuted ? 'Muted (Click to Unmute)' : 'Unmuted'}</span>
+              Audio: <span className="font-semibold text-slate-700 dark:text-slate-200">{isMuted ? 'Muted (Tap Unmute Below)' : 'Unmuted'}</span>
             </p>
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
             <button
               id="avatar-play-gesture-btn"
               onClick={handlePlayToggle}
-              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs sm:text-sm shadow-xl shadow-blue-600/30 transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
+              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full neu-accent-blue text-white font-semibold text-xs sm:text-sm transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
             >
               <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
@@ -212,7 +212,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
         {/* Synchronized Captions Overlay (Section 3C) */}
         {showCaptions && (
           <div className="absolute bottom-2 inset-x-4 flex justify-center pointer-events-none z-10">
-            <div className="px-4 py-2 rounded-xl bg-black/85 dark:bg-black/90 text-white text-xs sm:text-sm font-medium text-center shadow-lg max-w-lg transition-all border border-white/10 backdrop-blur-xs">
+            <div className="px-4 py-2 rounded-2xl bg-black/85 dark:bg-black/90 text-white text-xs sm:text-sm font-medium text-center shadow-lg max-w-lg transition-all border border-white/10 backdrop-blur-xs">
               {activeSegment ? (
                 <span className="tracking-wide text-blue-200 font-medium">
                   {activeSegment.text}
@@ -228,13 +228,13 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
       </div>
 
       {/* Media Playback Controls Bar */}
-      <div className="px-4 py-2.5 bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+      <div className="px-4 py-3 neu-inset-subtle flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
           {/* Play/Pause Button */}
           <button
             id="avatar-play-btn"
             onClick={handlePlayToggle}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl neu-accent-blue font-semibold transition-all cursor-pointer"
           >
             {isPlaying ? (
               <>
@@ -256,7 +256,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
           <button
             id="avatar-restart-btn"
             onClick={handleRestart}
-            className="p-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+            className="p-2 rounded-xl neu-button text-slate-700 dark:text-slate-300 transition-all cursor-pointer"
             title="Replay from start"
           >
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -274,16 +274,16 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
           <button
             id="avatar-mute-toggle-btn"
             onClick={() => setIsMuted(!isMuted)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-medium transition-all cursor-pointer neu-button ${
               isMuted
-                ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
-                : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                ? 'text-amber-600 dark:text-amber-400 font-semibold'
+                : 'text-emerald-600 dark:text-emerald-400 font-semibold'
             }`}
             title="Audio voice toggle (Option 1: stock TTS voice muted by default)"
           >
             {isMuted ? (
               <>
-                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
                 </svg>
@@ -291,7 +291,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
               </>
             ) : (
               <>
-                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                 </svg>
                 Unmuted
@@ -303,10 +303,10 @@ export default function AvatarPlayer({ config, captions: initialCaptions, isAdmi
           <button
             id="avatar-captions-toggle-btn"
             onClick={() => setShowCaptions(!showCaptions)}
-            className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors cursor-pointer ${
+            className={`px-3 py-1.5 rounded-xl text-[11px] font-medium transition-all cursor-pointer neu-button ${
               showCaptions
-                ? 'bg-blue-600/15 text-blue-600 dark:text-blue-300 border border-blue-500/30'
-                : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                ? 'text-blue-600 dark:text-blue-400 font-bold'
+                : 'text-slate-500 dark:text-slate-400'
             }`}
           >
             CC {showCaptions ? 'ON' : 'OFF'}

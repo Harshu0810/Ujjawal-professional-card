@@ -107,6 +107,7 @@ export async function POST(req: NextRequest) {
       quotaExceeded: false,
       reply: result.reply,
       modelUsed: result.modelUsed,
+      providerUsed: result.providerUsed,
       retrievedSections: result.retrievedSections,
       isFallback: result.isFallback,
       exchangesUsed: nextCount,

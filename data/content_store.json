@@ -16,7 +16,7 @@
       "headline": "[PLACEHOLDER: Scaling Brands with Intelligent Performance Marketing]",
       "introText": "[PLACEHOLDER: Hi, I am Ujjawal — an AI digital marketer combining performance advertising, conversion-driven funnels, and automated growth workflows to scale customer acquisition.]",
       "aboutText": "[PLACEHOLDER: With a focus on measurable revenue impact, I partner with ambitious founders and marketing leaders to design and execute high-converting digital acquisition funnels.]",
-      "preloaderText": "[PLACEHOLDER: AI Performance Marketing • Funnel Architecture • Growth Systems]",
+      "preloaderText": "AI Performance Marketing • Funnel Architecture • Growth Systems",
       "preloaderAssetId": "/images/logo.svg",
       "preloaderDurationMs": 1800,
       "footerText": "© 2026 [PLACEHOLDER: Ujjawal - AI Digital Marketer]. All rights reserved. [PLACEHOLDER DUMMY CONTENT]",
@@ -69,7 +69,7 @@
       "headline": "[PLACEHOLDER: Scaling Brands with Intelligent Performance Marketing]",
       "introText": "[PLACEHOLDER: Hi, I am Ujjawal — an AI digital marketer combining performance advertising, conversion-driven funnels, and automated growth workflows to scale customer acquisition.]",
       "aboutText": "[PLACEHOLDER: With a focus on measurable revenue impact, I partner with ambitious founders and marketing leaders to design and execute high-converting digital acquisition funnels.]",
-      "preloaderText": "[PLACEHOLDER: AI Performance Marketing • Funnel Architecture • Growth Systems]",
+      "preloaderText": "AI Performance Marketing • Funnel Architecture • Growth Systems",
       "preloaderAssetId": "/images/logo.svg",
       "preloaderDurationMs": 1800,
       "footerText": "© 2026 [PLACEHOLDER: Ujjawal - AI Digital Marketer]. All rights reserved. [PLACEHOLDER DUMMY CONTENT]",
@@ -395,7 +395,7 @@
     {
       "id": "admin-1",
       "username": "ujjawal_admin",
-      "passwordHash": "7e2e9d6615a98d74d5a64971a8309cf6:72d8cc53cd68b9de562f6c20329efafda7d04f10010efff9e49717c6f1e1bade7ec47f5c9cd37bc8d3a831edd5dbe224508fa5faed7d240b6278f782c954971b"
+      "passwordHash": "413c571df8f5e4c510a3f1c74f9fbdd0:ed7bdad28fa563381d4d166149dd500775d98c12221a595473fcecd20686f8e75f83e70b9a8510387c777366a8a894f77e321b49f7fad12b5f69fcaf3a0dce14"
     }
   ],
   "versions": [
@@ -571,13 +571,6 @@
       },
       "publishedAt": "2026-10-17T16:10:17.728Z",
       "publishedBy": "system"
-    }
-  ],
-  "adminUsers": [
-    {
-      "id": "admin-1",
-      "username": "ujjawal_admin",
-      "passwordHash": "413c571df8f5e4c510a3f1c74f9fbdd0:ed7bdad28fa563381d4d166149dd500775d98c12221a595473fcecd20686f8e75f83e70b9a8510387c777366a8a894f77e321b49f7fad12b5f69fcaf3a0dce14"
     }
   ]
 }

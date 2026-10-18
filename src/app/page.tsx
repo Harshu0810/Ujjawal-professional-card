@@ -7,6 +7,7 @@ import AvatarPlayer from '@/components/AvatarPlayer';
 import FullScreenChat from '@/components/FullScreenChat';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
 import ThemeToggle from '@/components/ThemeToggle';
+import Preloader from '@/components/Preloader';
 import {
   DUMMY_SITE_CONFIG,
   DUMMY_AVATAR_CONFIG,
@@ -75,10 +76,12 @@ export default function Home() {
       {/* 1. Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      {/* 2. Bare Loading Spinner / Transition */}
-      {isLoading && (
-        <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-blue-500 animate-pulse" />
-      )}
+      {/* 2. Branded Preloader (Fail-open transition, capability recognition) */}
+      <Preloader
+        text={siteConfig.preloaderText || 'AI Performance Marketing • Funnel Architecture • Growth Systems'}
+        assetId={siteConfig.preloaderAssetId || siteConfig.logoAssetId}
+        durationMs={siteConfig.preloaderDurationMs || 1800}
+      />
 
       {/* 3. Slim Navigation Header (Neumorphic) */}
       <header

@@ -12,7 +12,7 @@ export const DUMMY_SITE_CONFIG: SiteConfig = {
   headline: '[PLACEHOLDER: Scaling Brands with Intelligent Performance Marketing]',
   introText: '[PLACEHOLDER: Hi, I am Ujjawal — an AI digital marketer combining performance advertising, conversion-driven funnels, and automated growth workflows to scale customer acquisition.]',
   aboutText: '[PLACEHOLDER: With a focus on measurable revenue impact, I partner with ambitious founders and marketing leaders to design and execute high-converting digital acquisition funnels.]',
-  preloaderText: '[PLACEHOLDER: AI Performance Marketing • Funnel Architecture • Growth Systems]',
+  preloaderText: 'AI Performance Marketing • Funnel Architecture • Growth Systems',
   preloaderAssetId: '/images/logo.svg',
   preloaderDurationMs: 1800,
   footerText: '© 2026 [PLACEHOLDER: Ujjawal - AI Digital Marketer]. All rights reserved. [PLACEHOLDER DUMMY CONTENT]',

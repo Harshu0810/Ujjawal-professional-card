@@ -2,11 +2,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import AvatarPlayer from '@/components/AvatarPlayer';
 import {
   SiteConfig,
-  BenefitCard,
-  UseCaseVisual,
-  ReferenceVisual,
   AvatarConfig,
   CaptionTrack,
   KnowledgeDocument,
@@ -24,12 +22,9 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Content state (Draft)
-  const [activeTab, setActiveTab] = useState<'brand' | 'benefits' | 'usecases' | 'avatar' | 'chatbot' | 'versions' | 'security'>('brand');
+  // Content state (Draft) - v3 Section 4 tabs
+  const [activeTab, setActiveTab] = useState<'brand' | 'avatar' | 'chatbot' | 'contacts' | 'versions' | 'security'>('brand');
   const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(null);
-  const [benefits, setBenefits] = useState<BenefitCard[]>([]);
-  const [useCases, setUseCases] = useState<UseCaseVisual[]>([]);
-  const [referenceVisuals, setReferenceVisuals] = useState<ReferenceVisual[]>([]);
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig | null>(null);
   const [captionTrack, setCaptionTrack] = useState<CaptionTrack | null>(null);
   const [knowledgeDoc, setKnowledgeDoc] = useState<KnowledgeDocument | null>(null);
@@ -53,9 +48,6 @@ export default function AdminPage() {
         const data = await res.json();
         const draft = data.draft;
         setSiteConfig(draft.siteConfig);
-        setBenefits(draft.benefits);
-        setUseCases(draft.useCases);
-        setReferenceVisuals(draft.referenceVisuals);
         setAvatarConfig(draft.avatarConfig);
         setCaptionTrack(draft.captionTrack);
         setKnowledgeDoc(draft.knowledgeDocument);
@@ -138,9 +130,6 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           siteConfig,
-          benefits,
-          useCases,
-          referenceVisuals,
           avatarConfig,
           captionTrack,
           knowledgeDocument: knowledgeDoc,
@@ -149,12 +138,12 @@ export default function AdminPage() {
       });
 
       if (res.ok) {
-        setStatusMessage({ type: 'success', text: 'Draft saved successfully!' });
+        setStatusMessage({ type: 'success', text: 'Draft changes saved successfully!' });
       } else {
-        setStatusMessage({ type: 'error', text: 'Failed to save draft.' });
+        setStatusMessage({ type: 'error', text: 'Failed to save draft changes.' });
       }
     } catch {
-      setStatusMessage({ type: 'error', text: 'Error saving draft.' });
+      setStatusMessage({ type: 'error', text: 'Network error saving draft.' });
     } finally {
       setIsSaving(false);
     }
@@ -165,29 +154,27 @@ export default function AdminPage() {
     setStatusMessage(null);
 
     try {
-      // First ensure draft is saved
-      await handleSaveDraft();
+      const res = await fetch('/api/admin/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
 
-      const res = await fetch('/api/admin/publish', { method: 'POST' });
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
-        setStatusMessage({
-          type: 'success',
-          text: `All content published live! Version ${data.version.id} created.`
-        });
+        setStatusMessage({ type: 'success', text: `Published live successfully! Snapshot: ${data.version?.id || 'new'}` });
         loadContent();
       } else {
-        setStatusMessage({ type: 'error', text: 'Publishing failed.' });
+        setStatusMessage({ type: 'error', text: data.error || 'Publishing failed.' });
       }
     } catch {
-      setStatusMessage({ type: 'error', text: 'Network error during publish.' });
+      setStatusMessage({ type: 'error', text: 'Network error publishing content.' });
     } finally {
       setIsPublishing(false);
     }
   };
 
   const handleRollback = async (versionId: string) => {
-    if (!confirm(`Are you sure you want to rollback to version ${versionId}?`)) return;
+    if (!confirm(`Are you sure you want to rollback all content to ${versionId}?`)) return;
 
     try {
       const res = await fetch('/api/admin/rollback', {
@@ -311,7 +298,36 @@ export default function AdminPage() {
     );
   }
 
-  // Authenticated Admin Dashboard
+  // Helper getters for contact links
+  const whatsappLink = siteConfig?.contactLinks.find((l) => l.type === 'whatsapp')?.url || '';
+  const bookingLink = siteConfig?.contactLinks.find((l) => l.type === 'cal')?.url || '';
+  const linkedinLink = siteConfig?.socialLinks?.find((s) => s.platform === 'linkedin')?.url || '';
+  const instagramLink = siteConfig?.socialLinks?.find((s) => s.platform === 'instagram')?.url || '';
+
+  const updateContactLink = (type: 'whatsapp' | 'cal', newUrl: string) => {
+    if (!siteConfig) return;
+    const updated = [...siteConfig.contactLinks];
+    const idx = updated.findIndex((l) => l.type === type);
+    if (idx >= 0) {
+      updated[idx].url = newUrl;
+    } else {
+      updated.push({ label: type === 'whatsapp' ? 'WhatsApp' : 'Book Call', url: newUrl, type });
+    }
+    setSiteConfig({ ...siteConfig, contactLinks: updated });
+  };
+
+  const updateSocialLink = (platform: 'linkedin' | 'instagram', newUrl: string) => {
+    if (!siteConfig) return;
+    const updated = [...(siteConfig.socialLinks || [])];
+    const idx = updated.findIndex((s) => s.platform === platform);
+    if (idx >= 0) {
+      updated[idx].url = newUrl;
+    } else {
+      updated.push({ platform, url: newUrl, label: platform });
+    }
+    setSiteConfig({ ...siteConfig, socialLinks: updated });
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       {/* Top Header */}
@@ -323,8 +339,8 @@ export default function AdminPage() {
           <div>
             <h1 className="text-sm font-bold text-white flex items-center gap-2">
               Website CMS Control Panel
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">
-                Milestone 4 Live
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-semibold">
+                v3 Pivot Live
               </span>
             </h1>
             <p className="text-[11px] text-slate-400">
@@ -380,16 +396,15 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Main CMS Layout */}
+      {/* Main CMS Layout (v3 Section 4 Tabs) */}
       <div className="flex-1 max-w-7xl w-full mx-auto p-6 flex flex-col md:flex-row gap-6">
         {/* Sidebar Navigation */}
         <aside className="w-full md:w-56 shrink-0 space-y-1">
           {[
-            { id: 'brand', label: '🎨 Brand & Header' },
-            { id: 'benefits', label: '⭐ Benefits ("Pros")' },
-            { id: 'usecases', label: '📊 Bottlenecks & Proof' },
+            { id: 'brand', label: '🎨 Brand & Theme' },
             { id: 'avatar', label: '🗣️ Avatar & Speech' },
             { id: 'chatbot', label: '🤖 Chatbot & RAG' },
+            { id: 'contacts', label: '📞 Contact Links' },
             { id: 'versions', label: '🕒 Version History' },
             { id: 'security', label: '🔐 Security / Password' }
           ].map((tab) => (
@@ -409,203 +424,69 @@ export default function AdminPage() {
 
         {/* Tab Content Canvas */}
         <main className="flex-1 rounded-2xl bg-slate-900/60 border border-slate-800 p-6 space-y-6">
-          {/* TAB 1: BRAND & PAGE */}
+          {/* TAB 1: BRAND & THEME (v3 Section 4 Trimmed) */}
           {activeTab === 'brand' && siteConfig && (
             <div className="space-y-4">
               <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">
-                Brand Configuration (Appendix B: SiteConfig)
+                Brand &amp; Theme Configuration (v3 Section 4)
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Headline</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Logo Asset Path</label>
                   <input
                     type="text"
-                    value={siteConfig.headline}
-                    onChange={(e) => setSiteConfig({ ...siteConfig, headline: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
+                    value={siteConfig.logoAssetId}
+                    onChange={(e) => setSiteConfig({ ...siteConfig, logoAssetId: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white font-mono"
                   />
+                  <span className="text-[10px] text-slate-500">Default: /images/logo.svg</span>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Preloader Text</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Preloader Duration (ms)</label>
                   <input
-                    type="text"
-                    value={siteConfig.preloaderText}
-                    onChange={(e) => setSiteConfig({ ...siteConfig, preloaderText: e.target.value })}
+                    type="number"
+                    value={siteConfig.preloaderDurationMs}
+                    onChange={(e) => setSiteConfig({ ...siteConfig, preloaderDurationMs: Number(e.target.value) })}
                     className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
                   />
+                  <span className="text-[10px] text-slate-500">Bare transition spinner timing</span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Introduction Text</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Privacy Notice Statement</label>
                 <textarea
-                  value={siteConfig.introText}
-                  onChange={(e) => setSiteConfig({ ...siteConfig, introText: e.target.value })}
+                  value={siteConfig.privacyConsentText}
+                  onChange={(e) => setSiteConfig({ ...siteConfig, privacyConsentText: e.target.value })}
                   rows={2}
                   className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
                 />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">About Text</label>
-                <textarea
-                  value={siteConfig.aboutText}
-                  onChange={(e) => setSiteConfig({ ...siteConfig, aboutText: e.target.value })}
-                  rows={2}
-                  className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">CTA Label</label>
-                  <input
-                    type="text"
-                    value={siteConfig.ctaLabel}
-                    onChange={(e) => setSiteConfig({ ...siteConfig, ctaLabel: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Footer Notice</label>
-                  <input
-                    type="text"
-                    value={siteConfig.footerText}
-                    onChange={(e) => setSiteConfig({ ...siteConfig, footerText: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
-                  />
-                </div>
+                <span className="text-[10px] text-slate-500">India DPDP Act 2023 legal notice</span>
               </div>
             </div>
           )}
 
-          {/* TAB 2: BENEFITS */}
-          {activeTab === 'benefits' && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <h2 className="text-base font-bold text-white">
-                  Value Propositions (&quot;Pros&quot;)
-                </h2>
-                <button
-                  onClick={() => {
-                    const newId = `benefit-${Date.now()}`;
-                    setBenefits([
-                      ...benefits,
-                      {
-                        id: newId,
-                        title: '[New Benefit Card]',
-                        description: '[Description]',
-                        iconOrImageAssetId: 'zap',
-                        order: benefits.length + 1
-                      }
-                    ]);
-                  }}
-                  className="px-2.5 py-1 rounded bg-blue-600 text-xs font-semibold hover:bg-blue-500 cursor-pointer"
-                >
-                  + Add Card
-                </button>
-              </div>
-
-              <div className="space-y-3">
-                {benefits.map((card, idx) => (
-                  <div key={card.id} className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono text-blue-400 font-semibold">Card #{idx + 1}</span>
-                      <button
-                        onClick={() => setBenefits(benefits.filter((b) => b.id !== card.id))}
-                        className="text-xs text-red-400 hover:text-red-300"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      value={card.title}
-                      onChange={(e) => {
-                        const updated = [...benefits];
-                        updated[idx].title = e.target.value;
-                        setBenefits(updated);
-                      }}
-                      className="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white font-semibold"
-                    />
-                    <textarea
-                      value={card.description}
-                      onChange={(e) => {
-                        const updated = [...benefits];
-                        updated[idx].description = e.target.value;
-                        setBenefits(updated);
-                      }}
-                      rows={2}
-                      className="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-slate-300"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 3: USE CASES & REFERENCES */}
-          {activeTab === 'usecases' && (
-            <div className="space-y-6">
-              <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">
-                Use Cases &amp; Reference Visuals (Option A)
-              </h2>
-
-              <div className="space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400">Common Bottlenecks (Use Cases)</h3>
-                {useCases.map((uc, idx) => (
-                  <div key={uc.id} className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                    <input
-                      type="text"
-                      value={uc.title}
-                      onChange={(e) => {
-                        const updated = [...useCases];
-                        updated[idx].title = e.target.value;
-                        setUseCases(updated);
-                      }}
-                      className="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white font-semibold"
-                    />
-                    <textarea
-                      value={uc.description}
-                      onChange={(e) => {
-                        const updated = [...useCases];
-                        updated[idx].description = e.target.value;
-                        setUseCases(updated);
-                      }}
-                      rows={2}
-                      className="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-slate-300"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div className="space-y-4 pt-4 border-t border-slate-800">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-400">Portfolio &amp; System Reference Visuals</h3>
-                {referenceVisuals.map((ref, idx) => (
-                  <div key={ref.id} className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                    <input
-                      type="text"
-                      value={ref.caption}
-                      onChange={(e) => {
-                        const updated = [...referenceVisuals];
-                        updated[idx].caption = e.target.value;
-                        setReferenceVisuals(updated);
-                      }}
-                      className="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white font-mono"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 4: AVATAR & SPEECH */}
+          {/* TAB 2: AVATAR & SPEECH (Includes Live Re-Sync & Admin Debug Tools) */}
           {activeTab === 'avatar' && avatarConfig && captionTrack && (
-            <div className="space-y-4">
-              <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">
-                Runtime Avatar &amp; Hinglish Speech Settings (Section 3 &amp; 3A)
+            <div className="space-y-6">
+              <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2 flex items-center justify-between">
+                <span>Runtime Avatar &amp; Hinglish Speech Settings</span>
+                <span className="text-xs font-mono font-normal text-emerald-400">Admin Engine Controls</span>
               </h2>
+
+              {/* Live Preview Container with Admin Controls Enabled */}
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <span className="text-xs font-mono uppercase tracking-wider text-blue-400 font-semibold block">
+                  Interactive Test Preview (Admin Debug View)
+                </span>
+                <AvatarPlayer
+                  config={avatarConfig}
+                  captions={captionTrack}
+                  isAdmin={true} // Displays engine selector, estimated rate, and live script re-sync tool
+                />
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
@@ -615,10 +496,10 @@ export default function AdminPage() {
                     onChange={(e) => setAvatarConfig({ ...avatarConfig, engineName: e.target.value })}
                     className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
                   >
-                    <option value="d-id">D-ID Agents (WebRTC)</option>
-                    <option value="simli">Simli (Ultra Low-Cost)</option>
-                    <option value="heygen">HeyGen LiveAvatar</option>
-                    <option value="mock">Local Dev Mock</option>
+                    <option value="d-id">D-ID Agents ($0.12/min)</option>
+                    <option value="simli">Simli Ultra Low-Cost ($0.018/min)</option>
+                    <option value="heygen">HeyGen LiveAvatar ($3.00/min)</option>
+                    <option value="mock">Local Dev Sandbox ($0.00)</option>
                   </select>
                 </div>
 
@@ -661,7 +542,6 @@ export default function AdminPage() {
                   <h3 className="text-xs font-bold text-slate-300">Synchronized Caption Segments</h3>
                   <button
                     onClick={() => {
-                      // Trigger re-sync
                       const words = avatarConfig.scriptText.split(' ');
                       const dur = Math.max(3000, words.length * 360);
                       setCaptionTrack({
@@ -699,37 +579,58 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* TAB 5: CHATBOT & KNOWLEDGE */}
+          {/* TAB 3: CHATBOT & RAG (v3 Extended) */}
           {activeTab === 'chatbot' && chatbotConfig && knowledgeDoc && (
             <div className="space-y-4">
               <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">
-                Claude Chatbot &amp; Business Knowledge (Appendix A &amp; D)
+                Chatbot &amp; Claude Intelligence (v3 Section 2)
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Model Name</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Per-Session Question Cap (v3 Section 2B)
+                  </label>
                   <input
-                    type="text"
-                    value={chatbotConfig.modelName}
-                    disabled
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-slate-400 font-mono"
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={chatbotConfig.maxSessionExchanges || 3}
+                    onChange={(e) => setChatbotConfig({ ...chatbotConfig, maxSessionExchanges: Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white font-bold"
                   />
-                  <span className="text-[10px] text-slate-400">Anthropic Claude Haiku 5.5 ($100 budget line)</span>
+                  <span className="text-[10px] text-slate-500">Enforced strictly on server</span>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Fallback Response</label>
-                  <input
-                    type="text"
-                    value={chatbotConfig.fallbackResponse}
-                    onChange={(e) => setChatbotConfig({ ...chatbotConfig, fallbackResponse: e.target.value })}
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Allow General Knowledge Q&amp;A
+                  </label>
+                  <select
+                    value={chatbotConfig.allowGeneralQuestions !== false ? 'yes' : 'no'}
+                    onChange={(e) => setChatbotConfig({ ...chatbotConfig, allowGeneralQuestions: e.target.value === 'yes' })}
                     className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
+                  >
+                    <option value="yes">Enabled (Answers brief trivia/general Qs)</option>
+                    <option value="no">Disabled (Redirects off-topic only)</option>
+                  </select>
+                  <span className="text-[10px] text-slate-500">v3 Section 2A general intelligence</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Max Output Tokens</label>
+                  <input
+                    type="number"
+                    value={200}
+                    disabled
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-slate-500 font-mono"
                   />
+                  <span className="text-[10px] text-slate-500">Capped at 200 for 2-3 sentence brevity</span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Opening Greeting</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Opening Greeting Template</label>
                 <textarea
                   value={chatbotConfig.greeting}
                   onChange={(e) => setChatbotConfig({ ...chatbotConfig, greeting: e.target.value })}
@@ -739,8 +640,18 @@ export default function AdminPage() {
               </div>
 
               <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Intro Summary</label>
+                <textarea
+                  value={chatbotConfig.introSummary}
+                  onChange={(e) => setChatbotConfig({ ...chatbotConfig, introSummary: e.target.value })}
+                  rows={2}
+                  className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white"
+                />
+              </div>
+
+              <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Approved Business Knowledge Document (RAG Grounding Source)
+                  Approved Business Knowledge Document (Appendix A RAG Grounding Source)
                 </label>
                 <textarea
                   value={knowledgeDoc.content}
@@ -752,7 +663,73 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* TAB 6: VERSION HISTORY */}
+          {/* TAB 4: CONTACT LINKS (New in v3 Section 4) */}
+          {activeTab === 'contacts' && siteConfig && (
+            <div className="space-y-4">
+              <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">
+                Direct Contact Links (v3 Section 4)
+              </h2>
+              <p className="text-xs text-slate-400">
+                These channels are permanently docked in the header and surfaced when visitors reach their 3-question preview quota.
+              </p>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    WhatsApp Chat URL / Phone
+                  </label>
+                  <input
+                    type="text"
+                    value={whatsappLink}
+                    onChange={(e) => updateContactLink('whatsapp', e.target.value)}
+                    placeholder="https://wa.me/919876543210?text=..."
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-white font-mono focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Strategy Call Booking URL (Cal.com / Calendly)
+                  </label>
+                  <input
+                    type="text"
+                    value={bookingLink}
+                    onChange={(e) => updateContactLink('cal', e.target.value)}
+                    placeholder="https://cal.com/ujjawal/intro"
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-white font-mono focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    LinkedIn Profile URL
+                  </label>
+                  <input
+                    type="text"
+                    value={linkedinLink}
+                    onChange={(e) => updateSocialLink('linkedin', e.target.value)}
+                    placeholder="https://linkedin.com/in/ujjawal-marketer"
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-white font-mono focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Instagram Profile URL
+                  </label>
+                  <input
+                    type="text"
+                    value={instagramLink}
+                    onChange={(e) => updateSocialLink('instagram', e.target.value)}
+                    placeholder="https://instagram.com/ujjawal.growth"
+                    className="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-white font-mono focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: VERSION HISTORY */}
           {activeTab === 'versions' && (
             <div className="space-y-4">
               <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">
@@ -781,7 +758,7 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* TAB 7: SECURITY */}
+          {/* TAB 6: SECURITY */}
           {activeTab === 'security' && (
             <div className="space-y-4 max-w-md">
               <h2 className="text-base font-bold text-white border-b border-slate-800 pb-2">

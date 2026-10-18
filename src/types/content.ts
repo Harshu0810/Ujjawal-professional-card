@@ -117,6 +117,8 @@ export interface ChatbotConfig {
   modelName: string; // default: 'claude-haiku-5-5'
   maxOutputTokens: number;
   rateLimitPerSessionPerMinute: number;
+  maxSessionExchanges?: number; // default: 3 per v3 Section 2B
+  allowGeneralQuestions?: boolean; // default: true per v3 Section 2A
 }
 
 export interface AdminUser {

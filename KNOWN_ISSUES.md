@@ -2,7 +2,24 @@
 
 This file tracks technical limitations, pending decisions, and temporary placeholders across milestones.
 
-## Milestone 7 Status (Completed — Production Ready)
+## Milestone 8 Status (v3 Owner-Directed Pivot — Live & Production Ready)
+
+### v3 Pivot Scope Summary
+In accordance with `AI_Intro_Webpage_Build_Plan_v3_Pivot.md`, all legacy marketing sections (headline, pros cards, use-case cards, reference visual zoom, static audit form, closing CTA block) have been stripped from the public landing page. The website is centered on:
+1. **Pinned Runtime Avatar + Captions:** Autoplay muted with tap-to-unmute and synchronized Hinglish caption tracks. Clean visitor UI with debug badges restricted to `/admin`.
+2. **Full-Screen In-Page Chat:** Claude-powered AI assistant with server-side 3-question session quota, general intelligence showcase capability, and direct lead conversion triggers (WhatsApp / Cal.com).
+3. **Slim Header & Contact Dock:** Direct links to WhatsApp, Cal.com booking, LinkedIn, and Instagram, plus ThemeToggle (Dark/Light mode) and top ScrollProgressBar.
+4. **Streamlined Admin CMS:** Trimmed to 6 functional tabs (`Brand & Theme`, `Avatar & Speech`, `Chatbot & RAG`, `Contact Links`, `Version History`, `Security`).
+
+### Milestone 8 Technical Notes & Operational Trade-offs
+1. **Session Quota Reset Behavior (Milestone 9 Review):**
+   - Per Section 2B specification, the 3-question cap is session-bound. When a visitor reloads/refreshes the page, their in-memory session resets to 0.
+   - *Operational Trade-off:* A motivated visitor could refresh the page to start a new 3-question preview. As noted in Section 9, for a low-traffic personal card website this is standard and harmless; if stronger per-visitor restrictions are ever required in the future, IP-based or device-fingerprint persistent quotas can be enabled via Upstash Redis.
+2. **Claude Brevity & Cost Controls:**
+   - Out-of-band trivia and general knowledge questions are answered in 2–3 sentences.
+   - Enforced by both system prompt instructions and a strict 200 `max_tokens` API limit, protecting Anthropic spend while demonstrating AI capability.
+
+## Milestone 7 Status (Completed — Pre-Pivot Baseline)
 
 ### Full Milestones Sign-off (Milestones 1–7)
 All milestones in `AI_Intro_Webpage_Build_Plan_v2.md` have been implemented and validated against the Section 8 Acceptance Checklist:

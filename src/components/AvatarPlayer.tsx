@@ -6,9 +6,10 @@ import { CaptionTrack, AvatarConfig } from '@/types/content';
 interface AvatarPlayerProps {
   config: AvatarConfig;
   captions: CaptionTrack;
+  isAdmin?: boolean;
 }
 
-export default function AvatarPlayer({ config, captions: initialCaptions }: AvatarPlayerProps) {
+export default function AvatarPlayer({ config, captions: initialCaptions, isAdmin = false }: AvatarPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true); // Section 3A Option 1: muted by default
   const [showCaptions, setShowCaptions] = useState(true);
@@ -107,7 +108,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
     (s) => currentMs >= s.startMs && currentMs < s.endMs
   );
 
-  // Per-minute estimated rates per Appendix C
+  // Per-minute estimated rates per Appendix C (shown in admin only)
   const engineRates: Record<string, string> = {
     'simli': '$0.018 / min (~₹1.50/min)',
     'd-id': '$0.12 / min (~₹10.00/min)',
@@ -116,42 +117,47 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
   };
 
   return (
-    <div id="avatar-player-container" className="relative w-full max-w-xl mx-auto rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/80 shadow-2xl backdrop-blur-sm">
-      {/* Engine Selector & Rate Bar (Milestone 3 POC) */}
-      <div className="px-4 py-2 bg-slate-950/90 border-b border-slate-800 flex flex-wrap items-center justify-between text-xs gap-2">
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono uppercase text-blue-400 font-bold">Engine:</span>
-          <select
-            id="avatar-engine-select"
-            value={activeEngine}
-            onChange={(e) => setActiveEngine(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded px-2 py-0.5 text-xs text-white focus:outline-none focus:border-blue-500"
-          >
-            <option value="d-id">D-ID Agents (WebRTC)</option>
-            <option value="simli">Simli (Ultra Low-Cost)</option>
-            <option value="heygen">HeyGen LiveAvatar</option>
-            <option value="mock">Local Dev Sandbox</option>
-          </select>
-        </div>
+    <div
+      id="avatar-player-container"
+      className="relative w-full max-w-xl mx-auto rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 shadow-xl dark:shadow-2xl backdrop-blur-sm transition-all duration-300"
+    >
+      {/* Admin-only Engine Selector & Rate Bar (v3: hidden from public page) */}
+      {isAdmin && (
+        <div className="px-4 py-2 bg-slate-100 dark:bg-slate-950/90 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between text-xs gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono uppercase text-blue-600 dark:text-blue-400 font-bold">Engine:</span>
+            <select
+              id="avatar-engine-select"
+              value={activeEngine}
+              onChange={(e) => setActiveEngine(e.target.value)}
+              className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded px-2 py-0.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-blue-500"
+            >
+              <option value="d-id">D-ID Agents (WebRTC)</option>
+              <option value="simli">Simli (Ultra Low-Cost)</option>
+              <option value="heygen">HeyGen LiveAvatar</option>
+              <option value="mock">Local Dev Sandbox</option>
+            </select>
+          </div>
 
-        <div className="text-[11px] text-slate-400 font-mono">
-          Est. Rate: <span className="text-emerald-400 font-semibold">{engineRates[activeEngine] || '$0.12 / min'}</span>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+            Est. Rate: <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{engineRates[activeEngine] || '$0.12 / min'}</span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Visual Avatar Canvas / Frame */}
-      <div className="relative aspect-[4/3] sm:aspect-[16/10] bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 flex items-center justify-center overflow-hidden">
+      <div className="relative aspect-[4/3] sm:aspect-[16/10] bg-gradient-to-b from-slate-100 via-slate-200/50 to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 flex items-center justify-center overflow-hidden transition-colors">
         {/* Animated Background Grid */}
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]" />
+        <div className="absolute inset-0 opacity-15 dark:opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]" />
 
         {/* Avatar Representation */}
         <div className="relative flex flex-col items-center justify-center p-6 text-center">
-          <div className="relative mb-4">
-            <div className={`h-36 w-36 sm:h-44 sm:w-44 rounded-full border-2 ${
-              isPlaying ? 'border-emerald-500 shadow-xl shadow-emerald-500/20 ring-4 ring-emerald-500/10' : 'border-blue-500/50'
-            } bg-slate-800 flex items-center justify-center overflow-hidden transition-all duration-300`}>
-              <div className="flex flex-col items-center justify-center text-slate-400">
-                <svg className="h-20 w-20 text-blue-400/80" fill="currentColor" viewBox="0 0 24 24">
+          <div className="relative mb-3">
+            <div className={`h-32 w-32 sm:h-40 sm:w-40 rounded-full border-2 ${
+              isPlaying ? 'border-emerald-500 shadow-xl shadow-emerald-500/25 ring-4 ring-emerald-500/10' : 'border-blue-500/50'
+            } bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden transition-all duration-300`}>
+              <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
+                <svg className="h-16 w-16 sm:h-20 sm:w-20 text-blue-500 dark:text-blue-400/80" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
               </div>
@@ -159,7 +165,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
 
             {/* Speaking animation indicator */}
             {isPlaying && (
-              <div className="absolute bottom-1 right-2 flex items-center gap-1 bg-emerald-500/90 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+              <div className="absolute bottom-1 right-1 flex items-center gap-1 bg-emerald-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
                 <span className="h-1.5 w-1.5 rounded-full bg-slate-950 animate-ping" />
                 SPEAKING
               </div>
@@ -167,68 +173,68 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
           </div>
 
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-mono text-blue-400">
-              <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
-              Runtime Adapter: {activeEngine.toUpperCase()} (M3 Validated)
-            </div>
-            <p className="text-xs text-slate-400">
-              Language: <span className="font-semibold text-slate-200">Hinglish Code-Switching</span> • Audio: <span className="font-semibold text-slate-200">{isMuted ? 'Muted' : 'Unmuted'}</span>
+            {isAdmin ? (
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[11px] font-mono text-blue-600 dark:text-blue-400">
+                <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+                Runtime Adapter: {activeEngine.toUpperCase()} (M3 Validated)
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+                Ujjawal • AI Digital Marketer
+              </div>
+            )}
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              Audio: <span className="font-semibold text-slate-700 dark:text-slate-200">{isMuted ? 'Muted (Click to Unmute)' : 'Unmuted'}</span>
             </p>
           </div>
         </div>
 
         {/* Start / Gesture Overlay if not started */}
         {!hasStartedOnce && (
-          <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center z-20">
+          <div className="absolute inset-0 bg-slate-900/60 dark:bg-slate-950/75 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center z-20">
             <button
               id="avatar-play-gesture-btn"
               onClick={handlePlayToggle}
-              className="group flex items-center gap-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-xl shadow-blue-600/30 transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
+              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs sm:text-sm shadow-xl shadow-blue-600/30 transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+              <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
-              <span>Tap to Hear Introduction (Hinglish)</span>
+              <span>Tap to Play Introduction</span>
             </button>
-            <p className="mt-3 text-xs text-slate-400 max-w-xs">
-              Muted by default to respect browser policies. Synchronized captions provided below.
+            <p className="mt-2.5 text-[11px] text-slate-300 dark:text-slate-400 max-w-xs">
+              Muted by default to respect browser policies. Tap unmute below for audio.
             </p>
           </div>
         )}
 
         {/* Synchronized Captions Overlay (Section 3C) */}
         {showCaptions && (
-          <div className="absolute bottom-3 inset-x-3 z-10 flex justify-center pointer-events-none">
-            <div className="max-w-md px-4 py-2 rounded-lg bg-black/85 backdrop-blur-md border border-slate-700/60 text-center shadow-lg transition-all duration-200">
-              <p className="text-xs sm:text-sm font-medium text-amber-300 tracking-wide font-sans leading-snug">
-                {activeSegment ? (
-                  activeSegment.text
-                ) : (
-                  <span className="text-slate-400 italic">
-                    {isPlaying ? '...' : '[Press play to hear the introduction]'}
-                  </span>
-                )}
-              </p>
+          <div className="absolute bottom-2 inset-x-4 flex justify-center pointer-events-none z-10">
+            <div className="px-4 py-2 rounded-xl bg-black/85 dark:bg-black/90 text-white text-xs sm:text-sm font-medium text-center shadow-lg max-w-lg transition-all border border-white/10 backdrop-blur-xs">
+              {activeSegment ? (
+                <span className="tracking-wide text-blue-200 font-medium">
+                  {activeSegment.text}
+                </span>
+              ) : (
+                <span className="text-slate-400 italic text-[11px]">
+                  {isPlaying ? '...' : '(Synchronized Hinglish captions will appear here)'}
+                </span>
+              )}
             </div>
           </div>
         )}
       </div>
 
-      {/* Progress Bar */}
-      <div className="h-1 w-full bg-slate-800">
-        <div
-          className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 transition-all duration-75"
-          style={{ width: `${(currentMs / totalDurationMs) * 100}%` }}
-        />
-      </div>
-
-      {/* Interactive Controls Bar */}
-      <div className="px-4 py-3 bg-slate-950/90 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800 text-xs">
+      {/* Media Playback Controls Bar */}
+      <div className="px-4 py-2.5 bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
+          {/* Play/Pause Button */}
           <button
-            id="avatar-play-pause-btn"
+            id="avatar-play-btn"
             onClick={handlePlayToggle}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors cursor-pointer"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors cursor-pointer"
           >
             {isPlaying ? (
               <>
@@ -250,7 +256,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
           <button
             id="avatar-restart-btn"
             onClick={handleRestart}
-            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
             title="Replay from start"
           >
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -258,7 +264,7 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
             </svg>
           </button>
 
-          <span className="font-mono text-slate-400 text-[11px] ml-1">
+          <span className="font-mono text-slate-500 dark:text-slate-400 text-[11px] ml-1">
             {(currentMs / 1000).toFixed(1)}s / {(totalDurationMs / 1000).toFixed(1)}s
           </span>
         </div>
@@ -270,8 +276,8 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
             onClick={() => setIsMuted(!isMuted)}
             className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors cursor-pointer ${
               isMuted
-                ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
             }`}
             title="Audio voice toggle (Option 1: stock TTS voice muted by default)"
           >
@@ -299,43 +305,45 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
             onClick={() => setShowCaptions(!showCaptions)}
             className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors cursor-pointer ${
               showCaptions
-                ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30'
-                : 'bg-slate-800 text-slate-400'
+                ? 'bg-blue-600/15 text-blue-600 dark:text-blue-300 border border-blue-500/30'
+                : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
             }`}
           >
             CC {showCaptions ? 'ON' : 'OFF'}
           </button>
 
-          {/* Test Script Edit / Re-sync Action */}
-          <button
-            id="avatar-test-script-btn"
-            onClick={() => setIsTestingScript(!isTestingScript)}
-            className="px-2 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 text-[11px] font-medium hover:bg-indigo-600/30 transition-colors cursor-pointer"
-            title="Test changing speech script and re-synchronizing timestamps"
-          >
-            ✏️ Test Script
-          </button>
+          {/* Test Script Edit / Re-sync Action (Admin Only) */}
+          {isAdmin && (
+            <button
+              id="avatar-test-script-btn"
+              onClick={() => setIsTestingScript(!isTestingScript)}
+              className="px-2 py-1.5 rounded-lg bg-indigo-600/20 text-indigo-600 dark:text-indigo-300 border border-indigo-500/30 text-[11px] font-medium hover:bg-indigo-600/30 transition-colors cursor-pointer"
+              title="Test changing speech script and re-synchronizing timestamps"
+            >
+              ✏️ Test Script
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Script Test & Live Re-sync Panel */}
-      {isTestingScript && (
-        <div className="p-3 bg-slate-900 border-t border-slate-800 space-y-2 text-xs">
+      {/* Script Test & Live Re-sync Panel (Admin Only) */}
+      {isAdmin && isTestingScript && (
+        <div className="p-3 bg-slate-100 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 space-y-2 text-xs">
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-slate-200">Test Live Script &amp; Caption Re-Sync:</span>
-            <span className="text-[10px] text-slate-400">Section 3C Verification</span>
+            <span className="font-semibold text-slate-800 dark:text-slate-200">Test Live Script &amp; Caption Re-Sync:</span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400">Section 3C Verification</span>
           </div>
           <textarea
             value={testScriptText}
             onChange={(e) => setTestScriptText(e.target.value)}
             rows={2}
-            className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-200 text-xs focus:outline-none focus:border-blue-500"
+            className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-2 text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-blue-500"
             placeholder="Type Hinglish script..."
           />
           <div className="flex justify-end gap-2">
             <button
               onClick={() => setIsTestingScript(false)}
-              className="px-2.5 py-1 rounded bg-slate-800 text-slate-300 text-xs hover:bg-slate-700 cursor-pointer"
+              className="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs hover:bg-slate-300 dark:hover:bg-slate-700 cursor-pointer"
             >
               Cancel
             </button>
@@ -349,12 +357,6 @@ export default function AvatarPlayer({ config, captions: initialCaptions }: Avat
           </div>
         </div>
       )}
-
-      {/* Honest Prototype Notice */}
-      <div className="px-4 py-2 bg-slate-900 border-t border-slate-800/60 text-[10px] text-slate-400 flex items-center justify-between">
-        <span>Section 3/3A POC: Live WebRTC Adapter + Dynamic Hinglish Caption Sync</span>
-        <span className="text-emerald-400 font-semibold">[M3 POC Validated]</span>
-      </div>
     </div>
   );
 }

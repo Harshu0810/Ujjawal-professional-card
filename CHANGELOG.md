@@ -3,6 +3,41 @@
 All notable changes to the AI Digital Marketer Intro Website project will be documented in this file.
 This changelog follows the project milestones outlined in `AI_Intro_Webpage_Build_Plan_v2.md`.
 
+## [Milestone 8 - v3 Owner-Directed Pivot] - 2026-10-18
+### Added
+- **Full-Screen In-Page Chat Interface (`src/components/FullScreenChat.tsx`):**
+  - Serves as the primary centerpiece of the website directly beneath the pinned avatar.
+  - Implemented server-side session quota enforcement (`3 questions per session`) tracked in `/api/chat`.
+  - Added visual session exchange quota badge (`Quota: X / 3 Used`) with real-time reactive feedback.
+  - Added message 4 quota banner transforming the session limit into a high-intent lead conversion callout directly linking to WhatsApp and Cal.com booking.
+  - Pre-populated initial conversation thread with Ujjawal's greeting and quick suggestion pills.
+  - Bound by DPDP Act 2023 compliance notice.
+- **Server-Side Quota & General Intelligence Engine (`src/app/api/chat/route.ts` & `src/lib/chatbot/`):**
+  - Updated system prompt (`src/lib/chatbot/prompt.ts`) per Section 2E skeleton: allows brief general questions/testing while strictly grounding all business Q&A in Appendix A knowledge.
+  - Enforced strict 200 `max_tokens` cap and 2-3 sentence brevity instruction to safeguard API costs.
+  - Enforced server-side quota tracking via in-memory `sessionStore` keyed by session token/IP, blocking 4th+ API queries with 403 quota responses.
+- **Direct Contact Links CMS Tab (`src/app/admin/page.tsx`):**
+  - Added dedicated `📞 Contact Links` admin management tab allowing the owner to dynamically configure WhatsApp, Booking (Cal.com), LinkedIn, and Instagram URLs.
+  - Added editable question quota limit and general questions toggle in `🤖 Chatbot & RAG` tab.
+  - Integrated interactive live avatar debug player directly into `🗣️ Avatar & Speech` tab.
+- **Clean Visitor Avatar Presentation (`src/components/AvatarPlayer.tsx`):**
+  - Introduced `isAdmin?: boolean` prop: on public page, all internal dev/debug badges (`Est. Rate`, `Runtime Adapter: D-ID`, `Test Script`) are hidden. Full developer controls remain active inside `/admin`.
+
+### Removed
+- Removed legacy promotional sections from the public page:
+  - Hero headline, subheadline, and intro paragraph.
+  - Section navigation links.
+  - "Why Partner With Ujjawal" benefits/pros cards.
+  - "Common Marketing Bottlenecks Solved" use-case cards.
+  - "Portfolio & Performance Reference Visuals" and hover-zoom lightbox.
+  - Static "Request an AI Funnel & Growth Audit" form (fully superseded by the interactive chatbot).
+  - Closing CTA block ("Ready to Accelerate...").
+  - QR pocket-card button/modal on public page.
+  - Generic copy-to-clipboard buttons.
+  - Branded preloader recognition lines (reduced to a bare, non-blocking 0.5s transition line).
+
+---
+
 ## [UX & Conversion Enhancements] - 2026-10-17
 ### Added
 - **Dark Mode Toggle (`src/components/ThemeToggle.tsx`):**

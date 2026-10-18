@@ -16,7 +16,9 @@ export interface ChatCompletionResult {
 
 export async function generateChatResponse(
   messages: ChatMessage[],
-  latestQuery: string
+  latestQuery: string,
+  exchangesUsed = 0,
+  maxExchanges = 3
 ): Promise<ChatCompletionResult> {
   const db = readDatabase();
   const chatbotConfig = db.chatbotConfig.published;
@@ -27,11 +29,13 @@ export async function generateChatResponse(
   const retrievedSections = relevantChunks.map((c) => c.sectionTitle);
   const contextText = relevantChunks.map((c) => `[SECTION: ${c.sectionTitle}]\n${c.content}`).join('\n\n');
 
-  // 2. Build system prompt per Appendix D
+  // 2. Build system prompt per v3 Section 2E
   const systemPrompt = buildSystemPrompt({
     ownerName: 'Ujjawal',
-    contactMethod: siteConfig.contactLinks[0]?.url || 'the contact form / WhatsApp',
-    retrievedBusinessFacts: contextText
+    contactMethod: siteConfig.contactLinks[0]?.url || 'WhatsApp (+91 98765 43210)',
+    retrievedBusinessFacts: contextText,
+    exchangesUsed,
+    maxExchanges
   });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -54,7 +58,7 @@ export async function generateChatResponse(
         },
         body: JSON.stringify({
           model: modelName,
-          max_tokens: chatbotConfig.maxOutputTokens || 350,
+          max_tokens: 200, // Enforce strict brevity cost control (v3 Section 2D)
           system: systemPrompt,
           messages: formattedMessages
         })
@@ -77,14 +81,13 @@ export async function generateChatResponse(
     }
   }
 
-  // 4. Grounded Local RAG Engine (Zero-API-key sandbox fallback)
-  // Ensures full conversational functionality and adherence to Appendix A/D rules
+  // 4. Grounded Local Sandbox Fallback Engine
   const queryLower = latestQuery.toLowerCase();
 
   // Handle owner intro requests
   if (queryLower.includes('who are you') || queryLower.includes('who is ujjawal') || queryLower.includes('about ujjawal') || queryLower.includes('intro')) {
     return {
-      reply: `${chatbotConfig.introSummary} He helps growth-focused brands scale with data-backed ad testing and conversion funnel optimization. May I ask what business you run or what marketing goals you're working on?`,
+      reply: `${chatbotConfig.introSummary} He combines AI workflows with performance marketing to scale customer acquisition. What industry or business do you run?`,
       modelUsed: 'grounded-rag-engine (local)',
       retrievedSections,
       isFallback: true
@@ -94,7 +97,7 @@ export async function generateChatResponse(
   // Handle greetings
   if (/^(hi|hello|hey|namaste|greetings)\b/i.test(latestQuery.trim())) {
     return {
-      reply: `${chatbotConfig.greeting}`,
+      reply: `${chatbotConfig.greeting} Feel free to ask about our marketing systems, or ask me any general question to test my capabilities. What's on your mind today?`,
       modelUsed: 'grounded-rag-engine (local)',
       retrievedSections,
       isFallback: true
@@ -104,7 +107,7 @@ export async function generateChatResponse(
   // Handle services inquiries
   if (queryLower.includes('service') || queryLower.includes('what do you do') || queryLower.includes('offer')) {
     return {
-      reply: `Ujjawal specializes in: (1) AI-Accelerated Performance Ad Campaigns (Meta & Google), (2) Conversion Rate Optimization & Landing Page Funnels, and (3) Marketing Automation & Instant Lead Routing. What is the biggest marketing challenge your business is currently facing?`,
+      reply: `Ujjawal specializes in AI-accelerated ad creative loops (Meta & Google), conversion rate optimization (CRO) for landing pages, and automated lead routing. What is your current biggest marketing bottleneck?`,
       modelUsed: 'grounded-rag-engine (local)',
       retrievedSections,
       isFallback: true
@@ -114,17 +117,25 @@ export async function generateChatResponse(
   // Handle pricing inquiries
   if (queryLower.includes('price') || queryLower.includes('cost') || queryLower.includes('fee') || queryLower.includes('rate') || queryLower.includes('retainer')) {
     return {
-      reply: `Engagements are typically structured as either a continuous monthly growth retainer or scoped project fees for one-off funnel audits. Exact fees depend on your current ad spend volume and growth targets. Would you like to schedule an introductory 20-minute discovery call to discuss your numbers?`,
+      reply: `Engagements are structured either as monthly performance growth retainers or fixed funnel audit sprints depending on ad spend volume. Would you like to connect directly on WhatsApp to discuss your specific goals?`,
       modelUsed: 'grounded-rag-engine (local)',
       retrievedSections,
       isFallback: true
     };
   }
 
-  // Handle off-topic queries per Appendix D (redirect politely)
-  if (queryLower.includes('weather') || queryLower.includes('code python') || queryLower.includes('recipe') || queryLower.includes('joke')) {
+  // Handle brief general knowledge / testing questions (v3 Section 2A)
+  if (queryLower.includes('weather') || queryLower.includes('joke') || queryLower.includes('trivia') || queryLower.includes('capital') || queryLower.includes('who wrote') || queryLower.includes('python') || queryLower.includes('code')) {
+    if (queryLower.includes('joke')) {
+      return {
+        reply: `Why do performance marketers love testing creatives in parallel? Because single-variable experiments never go out of style! How is your current creative testing performing?`,
+        modelUsed: 'grounded-rag-engine (local)',
+        retrievedSections,
+        isFallback: true
+      };
+    }
     return {
-      reply: `I am dedicated specifically to Ujjawal's AI digital marketing business and lead qualification, so I can't assist with general trivia or unrelated topics. If you have questions about performance marketing, ad creatives, or funnels, I'd be glad to help!`,
+      reply: `I can gladly answer general knowledge questions while representing Ujjawal's digital marketing practice. If you are also exploring customer acquisition or conversion funnels, I can audit your current setup!`,
       modelUsed: 'grounded-rag-engine (local)',
       retrievedSections,
       isFallback: true
@@ -135,7 +146,7 @@ export async function generateChatResponse(
   if (relevantChunks.length > 0 && relevantChunks[0].content) {
     const primaryChunk = relevantChunks[0];
     return {
-      reply: `Based on Ujjawal's business information regarding ${primaryChunk.sectionTitle}:\n\n${primaryChunk.content.slice(0, 240)}...\n\nWould you like more details on this, or shall we connect you directly?`,
+      reply: `Regarding ${primaryChunk.sectionTitle}: ${primaryChunk.content.slice(0, 180)}... Feel free to ask more or reach out to Ujjawal on WhatsApp to review your funnels!`,
       modelUsed: 'grounded-rag-engine (local)',
       retrievedSections,
       isFallback: true
